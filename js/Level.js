@@ -30,7 +30,7 @@ Level.prototype = {
 
     // Walls
     var leftWall = this.platforms.create(0, -floorHeight, 'wall');
-    var rightWall = this.platforms.create(game.world.width - floorHeight, -floorHeight, 'wall');
+    var rightWall = this.platforms.create(this.game.world.width - floorHeight, -floorHeight, 'wall');
     leftWall.body.immovable = true;
     rightWall.body.immovable = true;
   },
