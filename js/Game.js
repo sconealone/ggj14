@@ -35,9 +35,6 @@ Game.prototype = {
     	this.player.update();
     	this.player2.update();
     	this.table.update(); 
-
-
-        
     }
 
 }
