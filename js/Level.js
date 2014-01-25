@@ -5,6 +5,8 @@
 Level = function(game) {
   this.game = game;
   this.platforms = null;
+
+  this.diamond = null;
 }
 
 // Note: nothing to do with this being the prototype level
@@ -40,7 +42,7 @@ Level.prototype = {
     // Diamond Spawn
     var spawnOffSetX = this.game.world.width/2;
     var spawnOffSetY = this.game.world.height - 2*floorHeight;
-    this.sprite = this.game.add.sprite(spawnOffSetX, spawnOffSetY, 'diamond');
+    this.diamond = this.game.add.sprite(spawnOffSetX, spawnOffSetY, 'diamond');
   },
 
   update: function() {

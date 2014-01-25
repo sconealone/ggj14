@@ -25,11 +25,16 @@ Player.prototype = {
 
     this.initializeKeys();
     this.addPhysics();
+
+    //# of overlaps
+    var count = 0;
+    this.collectDiamond();
   },
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
     this.checkKeyboard();
+    this.game.physics.overlap(this.sprite, level.diamond, collectDiamond, null, this);
   },
 
   /////////////////
@@ -80,4 +85,11 @@ Player.prototype = {
     this.sprite.body.gravity.y = 30;
     this.sprite.body.collideWorldBounds = true;
   }
+
+}
+
+function collectDiamond(player, diamond) {
+    player.count++;
+    alert(player.count);
+    diamond.kill();
 }
