@@ -140,56 +140,11 @@ Player2.prototype = {
     // Keys subject to change!
     this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.O);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
-  },
-
-// Fake Inherited
-  update: function() {
-    this.game.physics.collide(this.sprite, level.platforms);
-    this.checkKeyboard();
-  },
-
-  addPhysics: function() {
-    this.sprite.body.bounce.y = 0.1;
-    this.sprite.body.gravity.y = 30;
-    this.sprite.body.collideWorldBounds = true;
-  },
-
-  checkKeyboard: function() {
-    var isAirborne = !this.sprite.body.touching.down;
-    var tryJump = this.upKey.isDown && !isAirborne;
-    var isAirborne = !this.sprite.body.touching.down;
-    var jumpSpeed = -800;
-    var runSpeed = isAirborne ? 180: 250;
-
-    this.sprite.body.velocity.x = 0;
-    this.sprite.anchor.x = 0.5;
-
-    // Check movement
-    if (this.leftKey.isDown) {
-      this.sprite.body.velocity.x = -runSpeed;
-      this.tryFaceCorrectDirection(LEFT);
-    }
-    else if (this.rightKey.isDown) {
-      this.sprite.body.velocity.x = runSpeed;
-      this.tryFaceCorrectDirection(RIGHT);
-    }
-    else {
-      // stop animation code will go here
-    }
-
-    // Check attacks
-
-    // Check jumps
-    if (tryJump) {
-      this.sprite.body.velocity.y = jumpSpeed;
-    }
-  },
-
-  tryFaceCorrectDirection: function(tryTurnDirection) {
-    if (tryTurnDirection == this.direction) {
-      return;
-    }
-    this.direction = tryTurnDirection;
-    this.sprite.scale.x *= -1;
   }
 };
+
+// Fake Inherited
+Player2.prototype.update = Player.prototype.update;
+Player2.prototype.addPhysics = Player.prototype.addPhysics;
+Player2.prototype.checkKeyboard = Player.prototype.checkKeyboard;
+Player2.prototype.tryFaceCorrectDirection = Player.prototype.tryFaceCorrectDirection;
