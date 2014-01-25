@@ -27,6 +27,7 @@ Level.prototype = {
     // Ground
     this.floor = this.platforms.create(0, this.game.world.height - floorHeight, 'ground');
     this.floor.body.immovable = true;
+    this.floor.body.setSize(1280, 24, 0, 0);
 
     // Walls
     var leftWall = this.platforms.create(0, -floorHeight, 'wall');
@@ -36,5 +37,7 @@ Level.prototype = {
   },
 
   update: function() {
+
+
   }
 };
