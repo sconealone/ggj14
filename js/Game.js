@@ -9,17 +9,31 @@ Game.prototype = {
 	preload: function() {
 		level = new Level(this.game);
 		this.player = new Player(this.game);
+		this.table = new Table(this.game, this.player);
+
   		level.preload();
   		this.player.preload();
+  		this.table.preload();
 	},
 
   create: function () {
-    level.create();
+    	level.create();
 
-    this.player.create();
-  },
+  		this.player.create();
+  		this.table.create();
 
-  update: function () {
-    this.player.update()        
-  }
+      	this.cursors = this.game.input.keyboard.createCursorKeys(); 
+
+      	this.shootButton = this.game.input.keyboard.addKey(Phaser.Keyboard.Q); 		
+    },
+
+    update: function () {
+
+    	this.player.update();
+    	this.table.update(); 
+
+
+        
+    }
+
 }
