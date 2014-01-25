@@ -9,8 +9,6 @@ var RIGHT = 1;
 Player = function(game) {
   this.game = game;
   this.sprite = null;
-  // Cursors are how we control the player
-  this.cursors = null;
   this.direction = RIGHT;
 };
 
@@ -26,6 +24,7 @@ Player.prototype = {
     var spawnOffsetY = 24;
     var spawnOffsetX = 24;
     this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
+    this.sprite.anchor.x = 0.5;
 
     this.initializeKeys();
     this.addPhysics();
@@ -83,6 +82,8 @@ Player.prototype = {
     }
   },
 
+  // I want to have this read in at the constructor
+  // This way one player can choos different characters
   addPhysics: function() {
     this.sprite.body.bounce.y = 0.1;
     this.sprite.body.gravity.y = 30;
@@ -98,3 +99,34 @@ Player.prototype = {
     this.sprite.scale.x *= -1;
   }
 }
+
+
+// What do to here?????
+Player2 = function(game) {
+  this = new Player(game);
+}
+
+Player2.prototype.preload = function() {
+    this.game.load.spritesheet('cat', 'assets/placeholder/dog.png', 64, 80);
+};
+Player2.prototype.create = function() {
+    var spawnOffsetY = 24;
+    var spawnOffsetX = this.game.world.width - 24;
+    this.direction = LEFT;
+    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
+    this.sprite.scale.x = -1;
+
+    this.initializeKeys();
+    this.addPhysics();
+};
+Player2.prototype.initializeKeys = function () {
+    this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+    this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
+    this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+
+    // Attack
+    // Keys subject to change!
+    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
+    this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Y);
+};
