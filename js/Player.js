@@ -22,13 +22,14 @@ Player.prototype = {
   },
 
   create: function() {
-    var spawnOffsetY = 240;
+    var spawnOffsetY = 24;
     var spawnOffsetX = 24;
-    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - spawnOffsetY, 'cat');
+    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
 
     addPhysics(this);
   },
 
   update: function() {
+    this.game.physics.collide(this.sprite, level.platforms);
   }
 }

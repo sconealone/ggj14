@@ -1,42 +1,40 @@
+// Level is global
 Game = function(game) {
 	this.game = game;
-	this.level = null;
+	level = null;
 }
 
 Game.prototype = {
 
 	preload: function() {
-		this.level = new Level(this.game);
+		level = new Level(this.game);
 		this.player = new Player(this.game);
 		this.table = new Table(this.game, this.player);
 
-  		this.level.preload();
+  		level.preload();
   		this.player.preload();
   		this.table.preload();
 	},
 
-    create: function () {
-        console.log('hi! this is the game state');
+  create: function () {
 
-  		this.level.create();
+    level.create();
 
   		this.player.create();
   		this.table.create();
 
       	this.cursors = this.game.input.keyboard.createCursorKeys(); 
 
-      	this.shootButton = this.game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR); 		
+      	this.shootButton = this.game.input.keyboard.addKey(Phaser.Keyboard.Q); 		
     },
 
-    shootBullet: function () {
-    	console.log('shoot tables');
-
-    },
     update: function () {
 
-    	this.shootButton.onDown.add(this.shootBullet, this);
+    	this.player.update();
+    	this.table.update(); 
 
 
         
     }
+
 }
