@@ -16,6 +16,7 @@ Preloader.prototype = {
     create: function () {
 
         console.log('Preloade finished, lets go to the main menu automatically');
+        // this.game.add.sprite(400,400,'start');
         this.game.state.start('mainmenu');
 
     }    
