@@ -14,8 +14,6 @@ Game.prototype = {
 	},
 
   create: function () {
-      console.log('hi! this is the game state');
-
     level.create();
 
     this.player.create();
