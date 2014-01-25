@@ -9,10 +9,12 @@ Game.prototype = {
 	preload: function() {
 		level = new Level(this.game);
 		this.player = new Player(this.game);
+		this.player2 = new Player2(this.game);
 		this.table = new Table(this.game, this.player);
 
   		level.preload();
   		this.player.preload();
+  		this.player2.preload();
   		this.table.preload();
 	},
 
@@ -20,6 +22,7 @@ Game.prototype = {
     	level.create();
 
   		this.player.create();
+  		this.player2.create();
   		this.table.create();
 
       	this.cursors = this.game.input.keyboard.createCursorKeys(); 
@@ -30,6 +33,7 @@ Game.prototype = {
     update: function () {
 
     	this.player.update();
+    	this.player2.update();
     	this.table.update(); 
 
 
