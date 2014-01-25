@@ -102,30 +102,82 @@ Player.prototype = {
 
 // What do to here?????
 Player2 = function(game) {
-  this = new Player(game);
+    this.game = game;
+
+    this.player = new Player(game);
+    this.sprite = null;
+    this.direction = LEFT;    
+
+};
+
+Player2.prototype ={
+    preload: function (){
+
+      this.game.load.spritesheet('cat', 'assets/placeholder/dog.png', 64, 80);
+    },
+    create: function (){
+      var spawnOffsetY = 24;
+      var spawnOffsetX = this.game.world.width - 24;
+      this.player.direction = LEFT;
+      this.player.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
+      this.player.sprite.scale.x = -1;
+
+      this.player.initializeKeys();
+      this.player.addPhysics();      
+
+    },
+    initializeKeys: function () {
+      this.player.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+      this.player.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+      this.player.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
+      this.player.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+
+      // Attack
+      // Keys subject to change!
+      this.player.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
+      this.player.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Y);      
+    },
+
+    update: function (){
+      this.player.update();
+    },
+
+    checkKeyboard: function () {
+      this.player.checkKeyboard();
+    },
+
+    addPhysics: function (){
+      this.player.addPhysics();
+    },  
+
+    tryFaceCorrectDirection: function(){
+      this.player.tryFaceCorrectDirection();
+    }
+
+
 }
 
-Player2.prototype.preload = function() {
-    this.game.load.spritesheet('cat', 'assets/placeholder/dog.png', 64, 80);
-};
-Player2.prototype.create = function() {
-    var spawnOffsetY = 24;
-    var spawnOffsetX = this.game.world.width - 24;
-    this.direction = LEFT;
-    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
-    this.sprite.scale.x = -1;
+// Player2.prototype.preload = function() {
+//     this.game.load.spritesheet('cat', 'assets/placeholder/dog.png', 64, 80);
+// };
+// Player2.prototype.create = function() {
+//     var spawnOffsetY = 24;
+//     var spawnOffsetX = this.game.world.width - 24;
+//     this.direction = LEFT;
+//     this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
+//     this.sprite.scale.x = -1;
 
-    this.initializeKeys();
-    this.addPhysics();
-};
-Player2.prototype.initializeKeys = function () {
-    this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
-    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
-    this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
-    this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
+//     this.initializeKeys();
+//     this.addPhysics();
+// };
+// Player2.prototype.initializeKeys = function () {
+//     this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+//     this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+//     this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
+//     this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
 
-    // Attack
-    // Keys subject to change!
-    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
-    this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Y);
-};
+//     // Attack
+//     // Keys subject to change!
+//     this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
+//     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Y);
+// };
