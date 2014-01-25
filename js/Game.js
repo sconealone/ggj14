@@ -17,8 +17,7 @@ Game.prototype = {
 	},
 
   create: function () {
-
-    level.create();
+    	level.create();
 
   		this.player.create();
   		this.table.create();

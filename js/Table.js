@@ -3,6 +3,7 @@ Table = function(game, attacker) {
   this.attacker = attacker;
   this.attacks = null;
   this.cooldown = 0;
+  this.bounce = 0;
 
 }
 
@@ -21,34 +22,40 @@ Table.prototype = {
     },
 
     shootBullet: function () {
-      console.log('shoot tables');
 
       if (this.cooldown == 0){
         var attack = this.attacks.create(this.attacker.sprite.x + 10, this.attacker.sprite.y +10, 'table');
         attack.body.bounce.y = 0.4;
-        attack.body.gravity.y = 20;
+        attack.body.gravity.y = 15;
         attack.body.collideWorldBounds = true;
-        attack.body.angularAcceleration += 20;
-        attack.body.angularVelocity = 30;
+        attack.body.angularVelocity = 200;
 
-        this.game.physics.velocityFromAngle(attack.angle, 300, attack.body.velocity);
-
+        this.game.physics.velocityFromAngle(300, 500, attack.body.velocity);
+        attack.anchor.setTo(0.5, 0.5);
         this.cooldown += 70;
       }
 
     },    
 
+    hitFloor: function (table) {
+      this.bounce++;
+
+      if (this.bounce == 2){
+        table.kill();
+        this.bounce = 0;
+      }
+
+    },
+
     update: function () {
       if (this.cooldown > 0){
         this.cooldown--;
-        console.log(this.cooldown);
       }
-
 
 
       this.shootButton.onDown.add(this.shootBullet, this);
       this.game.physics.collide(this.attacks, this.attacks);
-      this.game.physics.collide(this.attacks, level.platforms);
+      this.game.physics.collide(this.attacks, level.platforms, this.hitFloor, null, this);
       this.game.physics.collide(this.attacks, this.attacker.sprite);
     	
     }
