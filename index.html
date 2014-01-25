@@ -4,6 +4,13 @@
 	<meta charset="UTF-8" />
 	<title>Global Game Jam 2014</title>
 	<script type="text/javascript" src="js/phaser.js"></script>
+    <script type="text/javascript" src="js/Preloader.js"></script>
+    <script type="text/javascript" src="js/MainMenu.js"></script>
+    <script type="text/javascript" src="js/Game.js"></script>
+
+    <script type="text/javascript" src="js/Level.js"></script>
+
+
     <style type="text/css">
         body {
             margin: 0;
@@ -12,27 +19,34 @@
 </head>
 <body>
 
-<script type="text/javascript" src="js/Level.js"></script>
 <script type="text/javascript">
 
-var game = new Phaser.Game(1280, 800, Phaser.AUTO, '', { preload: preload, create: create, update: update });
-var level = null;
+// <<<<<<< HEAD
+// var game = new Phaser.Game(1280, 800, Phaser.AUTO, '', { preload: preload, create: create, update: update });
+// var level = null;
 
-function preload() {
-  level = new Level(game);
-  level.preload();
-  level.create();
-}
-
-
-
-function create() {
-  level.create();
-}
+// function preload() {
+//   level = new Level(game);
+//   level.preload();
+//   level.create();
+// }
+// =======
 
 
-function update() {
-}
+(function () {
+
+
+    //  No parameters given, which means no default state is created or started
+    var game = new Phaser.Game(1280, 800, Phaser.AUTO);
+
+
+    game.state.add('preloader', Preloader, true);
+    game.state.add('mainmenu', MainMenu);
+    game.state.add('game', Game);
+
+})();
+
+
 
 </script>
 
