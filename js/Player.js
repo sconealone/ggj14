@@ -19,7 +19,7 @@ Player.prototype = {
   // Public
   /////////////////
   preload: function() {
-    this.game.load.spritesheet('cat', 'assets/placeholder/cat-small.png', 64, 64);
+    this.game.load.spritesheet('cat', 'assets/placeholder/catcl.png', 64, 64);
   },
 
   create: function() {

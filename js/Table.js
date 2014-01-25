@@ -11,7 +11,7 @@ Table = function(game, attacker) {
 Table.prototype = {
 
 	  preload: function() {
-      this.game.load.image('table', '../assets/diamond.png');
+      this.game.load.image('table', '../assets/placeholder/table.png');
 	  },
 
     create: function () {
