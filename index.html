@@ -4,6 +4,8 @@
 	<meta charset="UTF-8" />
 	<title>Global Game Jam 2014</title>
 	<script type="text/javascript" src="js/phaser.js"></script>
+    <script type="text/javascript" src="Preloader.js"></script>
+
     <style type="text/css">
         body {
             margin: 0;
@@ -14,23 +16,99 @@
 
 <script type="text/javascript">
 
-var game = new Phaser.Game(1280, 800, Phaser.AUTO, '', { preload: preload, create: create, update: update });
 
-function preload() {
+//states and whatnot
+// var Preloader = {
+//     preload: function () {
 
+//             this.game.load.image('start', 'assets/start_btn.png')
+//             this.game.load.image('sky', 'assets/sky.png');
+//             this.game.load.image('ground', 'assets/platform.png');
+//             this.game.load.image('star', 'assets/star.png');
+//             this.game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
 
+//     },
+
+//     create: function () {
+
+//         console.log('Preloade finished, lets go to the main menu automatically');
+//         // this.game.add.sprite(400,400,'start');
+//         this.game.state.start('mainmenu');
+
+//     }    
+
+// };
+
+var MainMenu = {
+    create: function () {
+        console.log('hi! this is the main menu');
+
+        var button;
+        button = this.game.add.button(this.game.world.centerX, 400, 'start', this.startGame, this, 2, 1, 0);
+        button.anchor.setTo(0.5, 0.5);
+    },
+
+    startGame: function () {
+        console.log('start this darn game');
+        this.game.start('game');
+    }
+};
+
+var Game = {
+    create: function(){
+
+    }
 }
 
 
+(function () {
 
-function create() {
+    //  No parameters given, which means no default state is created or started
+    var game = new Phaser.Game(1280, 800, Phaser.AUTO);
 
-}
 
+    game.state.add('preloader', Preloader, true);
+    game.state.add('mainmenu', MainMenu);
+    game.state.add('game', Game);
 
-function update() {
- 
-}
+})();
+
+// function preload() {
+//     game.load.image('start', 'assets/start_btn.png')
+//     game.load.image('sky', 'assets/sky.png');
+//     game.load.image('ground', 'assets/platform.png');
+//     game.load.image('star', 'assets/star.png');
+//     game.load.spritesheet('dude', 'assets/dude.png', 32, 48);
+
+// }
+
+// var player;
+// var platforms;
+// var cursors;
+// var stars;
+// var score = 0;
+// var scoreText;
+// var background = null;
+// var start;
+
+// function create() {
+
+//     start = game.add.button(game.world.centerX, 400, 'start', startGame, this, 2, 1, 0);
+
+// }
+
+// function startGame() {
+//     console.log('yep yep pressed it');
+
+// }
+
+// function collectStar(player, star){
+
+// }
+
+// function update() {
+
+// }
 
 </script>
 
