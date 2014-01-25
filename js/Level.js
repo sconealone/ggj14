@@ -21,13 +21,13 @@ Level.prototype = {
     
     var floorHeight = 24;
     // Ground
-    this.floor = this.game.add.sprite(0, game.world.height - floorHeight, 'ground');
+    this.floor = this.game.add.sprite(0, this.game.world.height - floorHeight, 'ground');
     this.floor.body.immovable = true;
 
     // Walls
     walls = this.game.add.group();
     var leftWall = walls.create(0, -floorHeight, 'wall');
-    var rightWall = walls.create(game.world.width - floorHeight, -floorHeight, 'wall');
+    var rightWall = walls.create(this.game.world.width - floorHeight, -floorHeight, 'wall');
     leftWall.body.immovable = true;
     rightWall.body.immovable = true;
   },
