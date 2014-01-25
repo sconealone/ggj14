@@ -30,7 +30,18 @@ Table.prototype = {
         attack.body.collideWorldBounds = true;
         attack.body.angularVelocity = 200;
 
+        if (this.attacker.direction == 1){
         this.game.physics.velocityFromAngle(300, 500, attack.body.velocity);
+        }
+
+        else {
+
+        //throwing to the left
+        attack.body.angularVelocity = -200;
+
+        this.game.physics.velocityFromAngle(60, -500, attack.body.velocity);
+        }
+
         attack.anchor.setTo(0.5, 0.5);
         this.cooldown += 70;
       }
