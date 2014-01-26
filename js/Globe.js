@@ -1,6 +1,7 @@
 Globe = function(game) {
 	this.game = game;
 	this.final_frame = 0;
+  this.changed_state = false;
 }
 
 Globe.prototype = {
@@ -8,9 +9,6 @@ Globe.prototype = {
 	preload: function(){
 		//this.game.load.image('neutral', 'assets/sprites/world.png');
 
-		this.game.load.spritesheet('world', "assets/sprites/catdogworldsheet.png", 80, 80);
-		this.game.load.spritesheet('catworld', "assets/sprites/catworldsheet.png", 80, 80);
-		this.game.load.spritesheet('dogworld', "assets/sprites/dogworldsheet.png", 80, 80);
 
 	},
 
@@ -49,15 +47,21 @@ Globe.prototype = {
         s.start();
     },
 	changeState: function(world, player) {
+    if (this.changed_state) {
+      return;
+    }
+    this.changed_state = true;
 
 		//this.fadeOut();
 	  this.sprite.animations.play('final');
 
-      this.sprite.kill();
-      setTimeout(function() {
-      	if (level.p1_diamonds > level.p2_diamonds){
-			level.game.state.start('catwin');
-		} else {
+    player.owner.knock_back_is_playing = true;
+    var _this = this;
+    setTimeout(function(){_this.sprite.kill();}, 300)
+    setTimeout(function() {
+      if (level.p1_diamonds > level.p2_diamonds){
+        level.game.state.start('catwin');
+      } else {
         	level.game.state.start('dogwin');
     	}
       }, 2000);
@@ -112,7 +116,8 @@ Globe.prototype = {
 				break;
 		}
 
-	    if (p1 >= 3 || p2 >= 3){
+      var winBreakPoint = 3;
+	    if (p1 >= winBreakPoint || p2 >= winBreakPoint){
 
 	      globe.sprite.body.gravity.y = 6;
 	      this.game.physics.collide(this.sprite, level.platforms);

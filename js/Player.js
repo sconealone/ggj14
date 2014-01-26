@@ -22,6 +22,7 @@ Player = function(gomanager) {
   this.loss = false;
   this.loss_frame = 15;
   this.knock_back_is_playing = false;
+  this.isImmune = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -52,13 +53,28 @@ Player.prototype = {
     this.sprite.animations.add('jump', [22], 10, true);
     this.sprite.animations.add('flip', [7,8,9], 8, false);    
     this.sprite.animations.add('crouch', [15], 8, false);    
-    this.sprite.animations.add('channel', [29], 8, true);    
+    this.sprite.animations.add('channel', [29, 30], 18, true);    
     this.sprite.animations.add('knockback', [36], 10, true);  
 
     this.addPhysics();
   },
-  collidePlayers: function (player1, player2) {
-
+  collidePlayers: function (player1_p, player2_p) {
+    var stompee = null;
+    var stomper = null;
+    if (player1_p.body.touching.up) { // getting stomped on
+      stompee = player1_p;
+      stomper = player2_p;
+    }
+    else {
+      stompee = player2_p;
+      stomper = player1_p;
+    }
+    if (stompee.owner.knock_back_is_playing || stompee.owner.isImmune) {
+      return;
+    }
+    stompee.owner.knock_back_is_playing = true;
+    stompee.animations.play('knockback');
+    setTimeout(function(){stompee.owner.makeImmuneToKnockback();stompee.owner.knock_back_is_playing=false;stompee.animations.stop;stompee.frame=0;}, 500);
   },
   createHud: function(num_tables){
 
@@ -74,7 +90,15 @@ Player.prototype = {
     }
     this.game.physics.collide(this.sprite, level.platforms);
     this.game.physics.overlap(this.sprite, level.diamonds, this.tryCollectDiamond, null, this);
+    player1.sprite.body.allowCollision.left =  false;
+    player1.sprite.body.allowCollision.right = false;
+    player2.sprite.body.allowCollision.left =  false;
+    player2.sprite.body.allowCollision.right = false;
     this.game.physics.collide(player1.sprite, player2.sprite, this.collidePlayers, null, this);
+    player1.sprite.body.allowCollision.left =  true;
+    player1.sprite.body.allowCollision.right = true;
+    player2.sprite.body.allowCollision.left =  true;
+    player2.sprite.body.allowCollision.right = true;
     if (this.cooldown > 0){
       this.cooldown--;
     }
@@ -87,6 +111,7 @@ Player.prototype = {
     } else {
       this.sprite.animations.stop();
       this.sprite.frame = this.loss_frame; // 46 
+      this.sprite.body.velocity.x = 0;
     }
     //this.createHud(this.num_tables);
     this.num_table_display.content = "x " + (MAX_TABLES - this.num_tables);
@@ -115,7 +140,7 @@ Player.prototype = {
     this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
     // Attack
     // Keys subject to change!
-    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
+    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
 
     // Getting Knocked Back
@@ -207,6 +232,12 @@ Player.prototype = {
     setTimeout(function(){_this.knock_back_is_playing=false;sprite.animations.stop;sprite.frame=0;}, 700);
   },
 
+  makeImmuneToKnockback: function() {
+    this.isImmune = true;
+    var _this = this;
+    setTimeout(function(){_this.isImmune = false;}, 300);
+  },
+
   // Fire a table. Weak attack.
   shootBullet: function() {
     if (this.num_tables >= MAX_TABLES) {
@@ -284,6 +315,7 @@ Player2 = function(gomanager) {
   this.knock_back_is_playing = false;
   this.wasChannelSuccessful = false;
   this.isChanneling = false;
+  this.isImmune = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -293,7 +325,6 @@ Player2 = function(gomanager) {
 
 Player2.prototype = {
   preload: function() {
-    this.game.load.spritesheet('dog', 'assets/sprites/dogsheet.png', 64, 80);
   },
   create: function() {
     this.createHud();
@@ -316,7 +347,7 @@ Player2.prototype = {
     this.sprite.animations.add('jump', [28], 10, true);
     this.sprite.animations.add('flip', [9,10,11], 8, false);   
     this.sprite.animations.add('crouch', [19], 10, true);
-    this.sprite.animations.add('channel', [37], 10, true);
+    this.sprite.animations.add('channel', [37, 38], 18, true);
     this.sprite.animations.add('knockback', [46], 10, true);
 
     this.addPhysics();
@@ -325,14 +356,14 @@ Player2.prototype = {
 // Private
 
   initializeKeys: function() {
-    this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.J);
-    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.L);
-    this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.I);
-    this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.K);
+    this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+    this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
+    this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
 
     // Attack
     // Keys subject to change!
-    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.U);
+    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.QUESTION_MARK);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
     this.knockBackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Z);
   },
@@ -370,3 +401,4 @@ Player2.prototype.hitPlayer = Player.prototype.hitPlayer;
 Player2.prototype.knockBack = Player.prototype.knockBack;
 Player2.prototype.tryCollectDiamond = Player.prototype.tryCollectDiamond;
 Player2.prototype.collidePlayers = Player.prototype.collidePlayers;
+Player2.prototype.makeImmuneToKnockback = Player.prototype.makeImmuneToKnockback;

@@ -23,8 +23,6 @@ CatWin = function(game) {
 
 CatWin.prototype = {
 	preload: function() {
-		this.game.load.image('catwin', "assets/backgrounds/catwin.png");
-		this.game.load.image('fliplevel', "assets/backgrounds/fliptonext.png");
 	},
     create: function () {
     	this.splash_screen = this.game.add.sprite(0, 0, 'catwin');
@@ -46,8 +44,6 @@ DogWin = function(game) {
 
 DogWin.prototype = {
 	preload: function() {
-		this.game.load.image('dogwin', "assets/backgrounds/dogwin.png");
-		this.game.load.image('fliplevel', "assets/backgrounds/fliptonext.png");
 	},
     create: function () {
     	this.splash_screen = this.game.add.sprite(0, 0, 'dogwin');

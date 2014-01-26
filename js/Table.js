@@ -11,7 +11,6 @@ Table = function(gomanager) {
 Table.prototype = {
 
 	  preload: function() {
-      this.game.load.image('table', '../assets/sprites/table.png');
 	  },
 
     create: function () {
@@ -155,6 +154,7 @@ Table.prototype = {
 
 killTable = function(table) {
   table.death_flag = true;
+  setTimeout(function() {table.frame = 1}, 200);
   setTimeout(function() {
             table.kill();
             table.attacker.num_tables--;
