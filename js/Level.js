@@ -7,7 +7,7 @@ Level = function(gomanager) {
   this.game = gomanager.game;
   this.platforms = null;
 
-  this.diamond = 'hey';
+  this.diamond = null;
 }
 
 // Note: nothing to do with this being the prototype level
@@ -46,10 +46,16 @@ Level.prototype = {
 
     // Diamond Spawn
     var spawnOffSetX = this.game.world.width/2;
-    var spawnOffSetY = this.game.world.height - 2*floorHeight;
+    // var spawnOffSetY = this.game.world.height - 2*floorHeight;
+    var spawnOffSetY = this.game.world.height/2;
     this.diamond = this.game.add.sprite(spawnOffSetX, spawnOffSetY, 'diamond');
+    this.diamond.anchor.setTo(1, 1);
+
+    this.diamond.body.gravity.y = 6;
+    this.diamond.body.bounce.y = 0.5 + Math.random() * 0.2;
   },
 
   update: function() {
+    this.game.physics.collide(this.diamond, this.platforms);
   }
 };
