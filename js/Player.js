@@ -49,7 +49,7 @@ Player.prototype = {
     this.sprite.animations.add('jump', [22], 10, true);
     this.sprite.animations.add('flip', [7,8,9], 8, false);    
     this.sprite.animations.add('crouch', [15], 8, false);    
-    this.sprite.animations.add('channel', [29, 30], 30, true);    
+    this.sprite.animations.add('channel', [29, 30], 18, true);    
     this.sprite.animations.add('knockback', [36], 10, true);  
 
     this.addPhysics();
@@ -297,7 +297,7 @@ Player2.prototype = {
     this.sprite.animations.add('jump', [28], 10, true);
     this.sprite.animations.add('flip', [9,10,11], 8, false);   
     this.sprite.animations.add('crouch', [19], 10, true);
-    this.sprite.animations.add('channel', [37, 38], 30, true);
+    this.sprite.animations.add('channel', [37, 38], 18, true);
     this.sprite.animations.add('knockback', [46], 10, true);
 
     this.addPhysics();
