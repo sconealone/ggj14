@@ -34,6 +34,9 @@ Game.prototype = {
 
 
         
+    },
+    render: function() {
+      level.render();
     }
 
 }
