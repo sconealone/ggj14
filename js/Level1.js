@@ -14,6 +14,14 @@ Level1 = function(gomanager) {
   this.p2_diamonds = 0; //number of diamonds player 2 collected
   this.winner = null;
   this.goals = null;
+
+  this.spawnPoints = [
+    this.game.world.width/2, this.game.world.height/2 - 10,
+    40, 0,
+    this.game.world.width - 40, 0,
+    this.game.world.width/2 + 290, this.game.world.height/2 + 100,
+    this.game.world.width/2 - 290, this.game.world.height/2 + 100,
+  ];
 }
 
 // Note: nothing to do with this being the prototype level
@@ -61,14 +69,16 @@ Level1.prototype = {
   },
 
   spawnDiamond: function() {
-    var spawnOffSetX = this.game.world.width/10*7;
-    var spawnOffSetY = this.game.world.height/10*7;
+    var idx = 5 - this.total_diamonds;
+    var spawnOffSetX = this.spawnPoints[idx*2 + 0];
+    var spawnOffSetY = this.spawnPoints[idx*2 + 1];
 
     var item = Math.floor(Math.random() * (3 - 0 + 1)) + 0;
 
     var diamond = this.diamonds.create(spawnOffSetX, spawnOffSetY, this.goals[item]);
     diamond.body.gravity.y = 8;
     diamond.body.bounce.y = 0.4 + Math.random() * 0.2;
+    diamond.anchor.setTo(0.5, 0.5);
   },
 
   update: function() {
@@ -131,14 +141,14 @@ Level1.prototype = {
     this.plat_bm.anchor.setTo(0.5, 0.5);
     this.plat_bm.body.immovable = true;
 
-    /*
     this.plat_mml = this.platforms.create(
-      this.game.world.width/2 - 65,
-      this.game.world.height/2 - 80, 'ground');
-    this.plat_mml.scale.setTo(2, 0.5);
+      this.game.world.width/2,
+      this.game.world.height/2 - 100, 'ground');
+    this.plat_mml.scale.setTo(0.5, 0.5);
     this.plat_mml.anchor.setTo(0.5, 0.5);
     this.plat_mml.body.immovable = true;
 
+    /*
     this.plat_mmr = this.platforms.create(
       this.game.world.width/2 + 65,
       this.game.world.height/2 - 80, 'ground');
