@@ -1,3 +1,8 @@
+
+function getRandomInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 Table = function(gomanager) {
   this.manager = gomanager;
 	this.game = gomanager.game;
@@ -11,6 +16,12 @@ Table = function(gomanager) {
 Table.prototype = {
 
 	  preload: function() {
+        this.game.load.audio('cathit1', ["assets/sounds/Cat_Hit1.wav"]);
+        this.game.load.audio('cathit2', ["assets/sounds/Cat_Hit2.wav"]);
+
+        this.game.load.audio('doghit1', ["assets/sounds/Dog_Hit1.wav"]);
+        this.game.load.audio('doghit2', ["assets/sounds/Dog_Hit2.wav"]);
+        this.game.load.audio('doghit3', ["assets/sounds/Dog_Hit3.wav"]);
 	  },
 
     create: function () {
@@ -82,6 +93,17 @@ Table.prototype = {
         return;
       }
       killTable(table);
+
+      if (sprite.owner.name == 'p1'){
+        var rn = getRandomInt(1,2);
+        var cathit = this.game.add.audio('cathit' + rn, 1, true);
+        cathit.play('', 0, 1, false);
+        
+      } else {
+        var rn = getRandomInt(1,3);
+        var doghit = this.game.add.audio('doghit' + rn, 1, true);
+        doghit.play('', 0, 1, false);        
+      }
 
       // Knockback defender
       sprite.owner.knockBack(sprite, table);
