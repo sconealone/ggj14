@@ -28,18 +28,21 @@ Table.prototype = {
 
         // Can this physics information be added to the group?
         attack.body.bounce.y = 0.4;
-        attack.body.gravity.y = 15;
+        attack.body.gravity.y = 10;
         attack.body.mass = 0.1;
         attack.body.collideWorldBounds = true;
         attack.body.angularVelocity = 200;
-        attack.body.setSize(64, 32, 0, 0);
         attack.attacker = attacker;
 
-        var scaleX = (direction == LEFT) ? -1 : 1;
-        var tableAngle = scaleX * 60;
-        var tableSpeed = 500;
+        if (direction == LEFT){
+          attack.body.angularVelocity = -200;
 
-        this.game.physics.velocityFromAngle(tableAngle, tableSpeed, attack.body.velocity);
+          this.game.physics.velocityFromAngle(60, -500, attack.body.velocity);
+        } 
+        else {
+          attack.body.angularVelocity = 200;
+          this.game.physics.velocityFromAngle(-60, 500, attack.body.velocity);
+        }
 
         attacker.num_tables--;
         attack.anchor.setTo(0.5, 0.5);
@@ -76,8 +79,11 @@ Table.prototype = {
 
     },
 
-    hitAttacker: function (player, table) {
-        // This isn't necessarily true
+
+    hitAttacker: function (player, table) { 
+
+
+        //This isn't necessarily true
         var attacker = player;
         var num_tables = attacker.num_tables;
         if (table.body.touching.up){

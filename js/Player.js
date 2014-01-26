@@ -31,6 +31,7 @@ Player.prototype = {
     var spawnOffsetX = 32 + 24;
     this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
     this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
 
     this.sprite.animations.add('left', [1, 2, 3, 4, 5], 10, true);
     this.sprite.animations.add('right', [1, 2, 3, 4, 5], 10, true);
@@ -85,7 +86,6 @@ Player.prototype = {
       else if (this.rightKey.isDown) {
         this.sprite.body.velocity.x = runSpeed;
         this.tryFaceCorrectDirection(RIGHT);
-        console.log('right key pressed');
         this.sprite.animations.play('right');
       }
       else if (this.upKey.isDown && isAirborne){
@@ -118,7 +118,7 @@ Player.prototype = {
   // Fire a table. Weak attack.
   shootBullet: function() {
     var tableSpawnX = this.sprite.x + 10;
-    var tableSpawnY =  this.sprite.y - 10;
+    var tableSpawnY =  this.sprite.y + 10;
     var _this = this;
     tableManager.shootBullet(_this,tableSpawnX, tableSpawnY, this.direction);
   },
