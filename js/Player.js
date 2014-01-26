@@ -64,7 +64,15 @@ Player.prototype = {
     }
     this.game.physics.collide(this.sprite, level.platforms);
     this.game.physics.overlap(this.sprite, level.diamonds, this.tryCollectDiamond, null, this);
+    player1.sprite.body.allowCollision.left =  false;
+    player1.sprite.body.allowCollision.right = false;
+    player2.sprite.body.allowCollision.left =  false;
+    player2.sprite.body.allowCollision.right = false;
     this.game.physics.collide(player1.sprite, player2.sprite, this.collidePlayers, null, this);
+    player1.sprite.body.allowCollision.left =  true;
+    player1.sprite.body.allowCollision.right = true;
+    player2.sprite.body.allowCollision.left =  true;
+    player2.sprite.body.allowCollision.right = true;
     if (this.cooldown > 0){
       this.cooldown--;
     }
