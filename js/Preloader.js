@@ -10,6 +10,9 @@ Preloader.prototype = {
         this.game.load.image('level1', 'assets/sprites/level1.png');
         this.game.load.image('level2', 'assets/sprites/level2.png');
         this.game.load.image('level3', 'assets/sprites/level3.png');
+
+        this.game.load.image('instruction_page', "assets/backgrounds/instructionspage.png");
+        this.game.load.image('instruction_btn', "assets/sprites/instructions.png");
     },
 
     create: function () {

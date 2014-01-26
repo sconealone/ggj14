@@ -15,13 +15,10 @@ Level = function(gomanager) {
   this.winner = null;
   this.goals = null;
 
-  var spriteHeight = 80;
+  this.offsetX = [1280/2, 1100, 300, 1050, 640];
+  this.offsetY = [300, 300, 100, 500, 500];
   this.p1Spawn = [32 + 24, this.game.world.height - (32 + 24)];
-  this.p2Spawn = [this.game.world.width - 24, this.game.world.height - (spriteHeight + 24)];
-  var x = this.game.world.width/2;
-  var y = this.game.world.height/2;
-  this.offsetX = [x, x, x, x, x];
-  this.offsetY = [y, y, y, y, y];
+  this.p2Spawn = [this.game.world.width - 24, this.game.world.height - (80 + 24)];
 }
 
 // Note: nothing to do with this being the prototype level
@@ -30,7 +27,7 @@ Level.prototype = {
 
     this.goals = ["meteorite", "petfood", "toaster", "kettle"];
     
-    this.game.load.image('sky', 'assets/backgrounds/bg1.png');
+    this.game.load.image('sky', 'assets/backgrounds/bg3.png');
 
     for (var i =0; i < 4; i++) {
       this.game.load.image(this.goals[i], 'assets/sprites/' + this.goals[i] + '.png');
@@ -60,23 +57,52 @@ Level.prototype = {
     this.floor.body.setSize(1280, 32, 0, 0);
     this.floor.scale.setTo(40, 1);
 
-    this.floor2 = this.platforms.create(this.game.world.width/2, this.game.world.height/2 + 200, 'ground');
-    this.floor2.scale.setTo(9, 1);
-    this.floor2.anchor.setTo(0.5, 0.5);
 
-    //this.floor2.body.setSize(300, 32, 0 , 0);
-    this.floor2.body.immovable = true;
+    // Ledges
+    var l1 = this.platforms.create(this.game.world.width/2, 350, 'ground');
+    l1.scale.setTo(6.25,1);
+    l1.body.immovable = true;
+    l1.anchor.setTo(0.5,0.5);
+
+    var l2 = this.platforms.create(this.game.world.width/2 - 300, 500, 'ground');
+    l2.scale.setTo(6.25,1);
+    l2.body.immovable = true;
+    l2.anchor.setTo(0.5,0.5);    
+
+    var l3 = this.platforms.create(this.game.world.width/2 + 300, 500, 'ground');
+    l3.scale.setTo(6.25,1);
+    l3.body.immovable = true;
+    l3.anchor.setTo(0.5,0.5);  
+
+    var l4 = this.platforms.create(this.game.world.width/2 + 500, 350, 'ground');
+    l4.scale.setTo(3,1);
+    l4.body.immovable = true;
+    l4.anchor.setTo(0.5,0.5);  
+
+    var l5 = this.platforms.create(this.game.world.width/2 - 500, 350, 'ground');
+    l5.scale.setTo(3,1);
+    l5.body.immovable = true;
+    l5.anchor.setTo(0.5,0.5);              
+
+    var l6 = this.platforms.create(this.game.world.width/2, 600, 'ground');
+    l6.scale.setTo(6.25,1);
+    l6.body.immovable = true;
+    l6.anchor.setTo(0.5,0.5);
+
 
     // Diamond Spawn
 
     this.diamonds = this.game.add.group();
-    this.spawnDiamond(0, 0);
+
+    this.spawnDiamond(this.offsetX[0], this.offsetY[0]);
+
+    //this.total_diamonds--;
 
   },
 
-  spawnDiamond: function(ignoreX, ignoreY) {
-    var spawnOffSetX = this.game.world.width/2;
-    var spawnOffSetY = this.game.world.height/2;
+  spawnDiamond: function(x, y) {
+    var spawnOffSetX = x;
+    var spawnOffSetY = y;    
 
     var item = Math.floor(Math.random() * (3 - 0 + 1)) + 0;
 
