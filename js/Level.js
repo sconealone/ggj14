@@ -45,10 +45,12 @@ Level.prototype = {
     this.floor.body.setSize(1280, 32, 0, 0);
     this.floor.scale.setTo(40, 1);
 
-    var floor2 = this.platforms.create(300, this.game.world.height/2 + 300, 'ground');
-    floor2.body.setSize(300, 32, 0 , 0);
-    floor2.scale.setTo(12.5, 1);
-    floor2.body.immovable = true;
+    this.floor2 = this.platforms.create(this.game.world.width/2, this.game.world.height/2 + 200, 'ground');
+    this.floor2.scale.setTo(9, 1);
+    this.floor2.anchor.setTo(0.5, 0.5);
+
+    //this.floor2.body.setSize(300, 32, 0 , 0);
+    this.floor2.body.immovable = true;
 
     // Diamond Spawn
 

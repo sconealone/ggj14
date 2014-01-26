@@ -36,10 +36,12 @@ Player.prototype = {
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
 
-    this.sprite.animations.add('left', [1, 2, 3, 4, 5], 10, true);
-    this.sprite.animations.add('right', [1, 2, 3, 4, 5], 10, true);
+    this.sprite.animations.add('left', [1, 2, 3, 4], 12, true);
+    this.sprite.animations.add('right', [1, 2, 3, 4], 12, true);
     this.sprite.animations.add('jump', [22], 10, true);
     this.sprite.animations.add('flip', [7,8,9], 8, false);    
+    this.sprite.animations.add('crouch', [15], 8, false);    
+    this.sprite.animations.add('channel', [41], 8, true);    
 
     this.initializeKeys();
     this.addPhysics();
@@ -108,6 +110,9 @@ Player.prototype = {
       }
       else if (this.isAirborne) {
         this.sprite.animations.play('jump');
+      }
+      else if (this.downKey.isDown) {
+        this.sprite.animations.play('crouch');
       }
       else {
         // stop animation code will go here
@@ -215,10 +220,12 @@ Player2.prototype = {
     this.sprite = this.game.add.sprite(spawnOffsetX, spawnY, 'dog');
     this.sprite.scale.x = -1;
 
-    this.sprite.animations.add('left', [1, 2, 3, 4, 5, 6, 7], 10, true);
-    this.sprite.animations.add('right', [1, 2, 3, 4, 5, 6, 7], 10, true);
-    this.sprite.animations.add('jump', [37], 10, true);
+    this.sprite.animations.add('left',  [1, 2, 3, 4, 4, 5, 6], 17, true);
+    this.sprite.animations.add('right', [1, 2, 3, 4, 4, 5, 6], 17, true);
+    this.sprite.animations.add('jump', [28], 10, true);
     this.sprite.animations.add('flip', [9,10,11], 8, false);   
+    this.sprite.animations.add('crouch', [19], 10, true);
+    this.sprite.animations.add('channel', [37], 10, true);
 
     this.initializeKeys();
     this.addPhysics();
@@ -234,7 +241,7 @@ Player2.prototype = {
 
     // Attack
     // Keys subject to change!
-    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.O);
+    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.U);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
   },
   collectDiamond: function(player, diamond) {
