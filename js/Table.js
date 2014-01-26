@@ -14,7 +14,7 @@ Table = function(gomanager) {
 Table.prototype = {
 
 	  preload: function() {
-      this.game.load.image('table', '../assets/placeholder/table.png');
+      this.game.load.image('table', '../assets/sprites/table.png');
 	  },
 
     create: function () {
@@ -114,12 +114,7 @@ Table.prototype = {
 
         table1.body.velocity.x = 0;
         table1.body.velocity.y = 0;
-        table1.body.gravity.y = 0.1;
-
-        // table2.body.immovable = true;
-        // table1.body.immovable = true;
-        // table1.body.gravity.y = 0;
-        // table2.body.gravity.y = 0;
+        table1.body.gravity.y = 0.0;
     },
 
     update: function () {
@@ -131,6 +126,7 @@ Table.prototype = {
       if (this.break_counter > 0){
         this.break_counter--;
       }
+
 
       this.game.physics.collide(this.attacks, this.manager.player1.sprite, this.hitAttacker, null, this);
       this.game.physics.collide(this.attacks, this.attacks, this.hitTable, null, this);

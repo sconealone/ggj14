@@ -4,7 +4,7 @@ Preloader = function(game) {
 
 Preloader.prototype = {
     preload: function () {
-        this.game.load.image('start', 'assets/start_btn.png');
+        this.game.load.image('start', 'assets/icons/start_btn.png');
     },
 
     create: function () {

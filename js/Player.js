@@ -12,6 +12,7 @@ Player = function(gomanager) {
   this.sprite = null;
   this.direction = RIGHT;
   this.num_tables = 10;
+  this.done_flip = true;
 
   //count # of overlaps
   this.count = 0;
@@ -22,14 +23,19 @@ Player.prototype = {
   // Public
   /////////////////
   preload: function() {
-    this.game.load.spritesheet('cat', 'assets/placeholder/catcl.png', 64, 64);
+    this.game.load.spritesheet('cat', 'assets/sprites/catsheet.png', 64, 64);
   },
 
   create: function() {
     var spawnOffsetY = 24;
-    var spawnOffsetX = 24;
+    var spawnOffsetX = 32 + 24;
     this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
     this.sprite.anchor.x = 0.5;
+
+    this.sprite.animations.add('left', [1, 2, 3, 4, 5], 10, true);
+    this.sprite.animations.add('right', [1, 2, 3, 4, 5], 10, true);
+    this.sprite.animations.add('jump', [22], 10, true);
+    this.sprite.animations.add('flip', [7,8,9], 10, false);    
 
     this.initializeKeys();
     this.addPhysics();
@@ -39,6 +45,7 @@ Player.prototype = {
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
+    this.game.physics.collide(this.sprite, tableManager.attacks);
     this.checkKeyboard();
     this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
   },
@@ -62,7 +69,6 @@ Player.prototype = {
   checkKeyboard: function() {
     var isAirborne = !this.sprite.body.touching.down;
     var tryJump = this.upKey.isDown && !isAirborne;
-    var isAirborne = !this.sprite.body.touching.down;
     var jumpSpeed = -800;
     var runSpeed = isAirborne ? 180: 250;
 
@@ -70,26 +76,42 @@ Player.prototype = {
     this.sprite.anchor.x = 0.5;
 
     // Check movement
-    if (this.leftKey.isDown) {
-      this.sprite.body.velocity.x = -runSpeed;
-      this.tryFaceCorrectDirection(LEFT);
-    }
-    else if (this.rightKey.isDown) {
-      this.sprite.body.velocity.x = runSpeed;
-      this.tryFaceCorrectDirection(RIGHT);
-    }
-    else {
-      // stop animation code will go here
+    if (this.done_flip){
+      if (this.leftKey.isDown) {
+        this.sprite.body.velocity.x = -runSpeed;
+        this.tryFaceCorrectDirection(LEFT);
+        this.sprite.animations.play('left');
+      }
+      else if (this.rightKey.isDown) {
+        this.sprite.body.velocity.x = runSpeed;
+        this.tryFaceCorrectDirection(RIGHT);
+        console.log('right key pressed');
+        this.sprite.animations.play('right');
+      }
+      else if (this.upKey.isDown && isAirborne){
+        this.sprite.animations.play('jump');
+      }
+      else {
+        // stop animation code will go here
+        this.sprite.animations.stop();
+        this.sprite.frame = 0;
+      }
     }
 
-    // Check attacks
+
     if (this.weakKey.isDown) {
+      this.done_flip = false;
       this.shootBullet();
+      this.sprite.animations.play('flip');
+      this.sprite.events.onAnimationComplete.add(function(){
+            this.done_flip = true;
+          }, this);
     }
 
     // Check jumps
     if (tryJump) {
       this.sprite.body.velocity.y = jumpSpeed;
+
     }
   },
 
@@ -133,6 +155,8 @@ Player2 = function(game) {
   this.direction = RIGHT;
   this.cursors = null;
 
+  this.done_flip = true;
+
   //count # of overlaps
   this.count = 0;
 }
@@ -141,7 +165,7 @@ Player2 = function(game) {
 
 Player2.prototype = {
   preload: function() {
-    this.game.load.spritesheet('dog', 'assets/placeholder/dog.png', 64, 80);
+    this.game.load.spritesheet('dog', 'assets/sprites/dogsheet.png', 64, 80);
   },
   create: function() {
     var spawnOffsetY = 24;
@@ -151,6 +175,11 @@ Player2.prototype = {
     var spawnY = this.game.world.height - (spriteHeight + spawnOffsetY);
     this.sprite = this.game.add.sprite(spawnOffsetX, spawnY, 'dog');
     this.sprite.scale.x = -1;
+
+    this.sprite.animations.add('left', [1, 2, 3, 4, 5, 6, 7], 10, true);
+    this.sprite.animations.add('right', [1, 2, 3, 4, 5, 6, 7], 10, true);
+    this.sprite.animations.add('jump', [37], 10, true);
+    this.sprite.animations.add('flip', [9,10,11], 6, false);   
 
     this.initializeKeys();
     this.addPhysics();
@@ -169,6 +198,7 @@ Player2.prototype = {
     this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.O);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
   }
+
 };
 
 // Fake Inherited
@@ -177,4 +207,5 @@ Player2.prototype.addPhysics = Player.prototype.addPhysics;
 Player2.prototype.checkKeyboard = Player.prototype.checkKeyboard;
 Player2.prototype.tryFaceCorrectDirection = Player.prototype.tryFaceCorrectDirection;
 Player2.prototype.collectDiamond = Player.prototype.collectDiamond;
+Player2.prototype.shootBullet = Player.prototype.shootBullet;
 
