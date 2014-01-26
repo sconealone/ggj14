@@ -10,10 +10,18 @@ MainMenu.prototype = {
         button = this.game.add.button(this.game.world.centerX, 400, 'start', this.startGame, this, 2, 1, 0);
        	button.scale.setTo(0.7, 0.7);
         button.anchor.setTo(0.5, 0.5);
+
+        nextlevel = this.game.add.button(this.game.world.centerX , 600, 'level2', this.startNextLevel, this, 2,1,0);
+    	nextlevel.scale.setTo(0.7, 0.7);
+    	nextlevel.anchor.setTo(0.5,0.5);
     },
 
     startGame: function () {
         this.game.state.start('game');
+    },
+
+    startNextLevel: function() {
+    	this.game.state.start('game2');
     }	
 }
 
@@ -31,10 +39,17 @@ CatWin.prototype = {
         button = this.game.add.button(this.game.world.centerX + 400, 400, 'fliplevel', this.startGame, this, 2, 1, 0);
        	button.scale.setTo(0.7, 0.7);
         button.anchor.setTo(0.5, 0.5);
+
+        tryagain = this.game.add.button(this.game.world.centerX , 600, 'level2', this.startNextLevel, this, 2,1,0);
+    	tryagain.scale.setTo(0.7, 0.7);
+    	tryagain.anchor.setTo(0.5,0.5);        
     },
 
     startGame: function () {
         this.game.state.start('game');
+    },
+    startNextLevel: function() {
+    	this.game.state.start('game2');
     }	
 }
 
@@ -52,11 +67,18 @@ DogWin.prototype = {
         button = this.game.add.button(this.game.world.centerX - 400, 400, 'fliplevel', this.startGame, this, 2, 1, 0);
        	button.scale.setTo(0.7, 0.7);
         button.anchor.setTo(0.5, 0.5);
+
+        tryagain = this.game.add.button(this.game.world.centerX , 600, 'level2', this.startNextLevel, this, 2,1,0);
+    	tryagain.scale.setTo(0.7, 0.7);
+    	tryagain.anchor.setTo(0.5,0.5);            
     },
 
     startGame: function () {
         this.game.state.start('game');
-    }	
+    },
+    startNextLevel: function() {
+    	this.game.state.start('game2');
+    }    	
 }
 
 

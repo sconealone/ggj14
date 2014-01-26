@@ -1,13 +1,12 @@
 // Level is global
 // All managers are global
-GameObjectManager = function(game) {
+L2GameObjectManager = function(game) {
 	this.game = game;
 	level = null;
-  level2 = null;
   tableManager = null;
 }
 
-GameObjectManager.prototype = {
+L2GameObjectManager.prototype = {
 
 	preload: function() {
     this.load.spritesheet('dog', 'assets/sprites/dogsheet.png', 64, 80);
@@ -20,7 +19,7 @@ GameObjectManager.prototype = {
 		this.load.image('catwin', "assets/backgrounds/catwin.png");
     this.load.spritesheet('table', 'assets/sprites/tablesheet.png', 80, 32);
     _this = this;
-		level = new Level(_this);
+		level = new Level2(_this);
 		player1 = new Player(_this);
 		player2 = new Player2(_this);
 		tableManager = new Table(_this);
