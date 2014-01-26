@@ -271,14 +271,16 @@ Player.prototype = {
 
     level.p1_diamonds++;
     this.num_diamonds++;
-    diamond.kill();
     level.total_diamonds--;
 
-    if(level.p1_diamonds < 3 && level.p2_diamonds < 3){
-      console.log(5- level.total_diamonds);
-      var point = 5 - level.total_diamonds;
-      level.spawnDiamond(level.offsetX[point], level.offsetY[point]);
-    }
+    setTimeout(
+      function() {
+        if(level.p1_diamonds < 3 && level.p2_diamonds < 3){
+          console.log(5- level.total_diamonds);
+          var point = 5 - level.total_diamonds;
+          level.spawnDiamond(level.offsetX[point], level.offsetY[point]);
+        }
+      }, 3000);
 
   },
   tryCollectDiamond: function(player, diamond) {
@@ -286,6 +288,7 @@ Player.prototype = {
     if (this.isChanneling) {
       return;
     }
+    diamond.kill();
     this.wasChannelSuccessful = true;
     this.isChanneling = true;
     var _this = this;
@@ -293,6 +296,10 @@ Player.prototype = {
       function(){
         if (_this.wasChannelSuccessful) {
           _this.collectDiamond(player, diamond);
+        }
+        else {
+          var point = (5 - level.total_diamonds);
+          level.spawnDiamond(level.offsetX[point], level.offsetY[point]);
         }
         _this.isChanneling = false;
       },
