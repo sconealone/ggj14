@@ -122,7 +122,7 @@ Player.prototype = {
       if (this.cooldown > 0 || this.num_tables >= MAX_TABLES) {
         return;
       }
-      this.cooldown = 70;
+      this.cooldown = 60;
       this.done_flip = false;
       this.shootBullet();
       this.sprite.animations.play('flip');
@@ -185,15 +185,17 @@ Player.prototype = {
 
 
 // What do to here?????
-Player2 = function(game) {
-  this.game = game;
+Player2 = function(gomanager) {
+  this.manager = gomanager;
+  this.game = gomanager.game;
   this.sprite = null;
-  this.direction = RIGHT;
-  this.cursors = null;
-
+  this.direction = LEFT;
+  this.num_tables = 0;
   this.done_flip = true;
+  this.cooldown = 0;
+  this.isAirborne = false;
 
-  //count # of overlaps
+  //count # of collected diamonds
   this.num_diamonds = 0;
 }
 
