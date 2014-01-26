@@ -147,9 +147,9 @@ Table.prototype = {
 
       this.shootButton.onDown.add(this.shootBullet, this);
 
-      this.game.physics.collide(this.attacks, this.attacker.sprite, this.hitAttacker, null, this);
+      
       this.game.physics.collide(this.attacks, this.attacks, this.hitTable, null, this);
-
+      this.game.physics.collide(this.attacks, this.attacker.sprite, this.hitAttacker, null, this);
       this.game.physics.collide(this.attacks, level.platforms, this.hitFloor, null, this);
       
 
