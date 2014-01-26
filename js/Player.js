@@ -56,7 +56,6 @@ Player.prototype = {
     this.addPhysics();
   },
   collidePlayers: function (player1_p, player2_p) {
-    console.log("COLLIDE");
     var stompee = null;
     var stomper = null;
     if (player1_p.body.touching.up) { // getting stomped on
