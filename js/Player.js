@@ -6,6 +6,10 @@ var LEFT = 0;
 var RIGHT = 1;
 var MAX_TABLES = 10;
 
+function getRandomInt (min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
 // I guess this is like a constructor
 Player = function(gomanager) {
   this.manager = gomanager;
@@ -23,6 +27,7 @@ Player = function(gomanager) {
   this.loss_frame = 15;
   this.knock_back_is_playing = false;
   this.isImmune = false;
+  this.name='p1';
 
   this.counter1 = null;
   this.counter2 = null;
@@ -41,6 +46,19 @@ Player.prototype = {
     this.game.load.image('hud_icon', "assets/sprites/table.png");
     this.game.load.image('dogicon', "assets/sprites/dogicon.png");
     this.game.load.image("caticon", "assets/sprites/caticon.png");
+
+
+    this.game.load.audio('catjump1', ['assets/sounds/Cat_Jump1.wav']);
+    this.game.load.audio('catjump2', ['assets/sounds/Cat_Jump2.wav']);
+
+    this.game.load.audio('woosh1', ['assets/sounds/Table_Whoosh1.wav']);
+    this.game.load.audio('woosh2', ['assets/sounds/Table_Whoosh1.wav']);
+    this.game.load.audio('woosh3', ['assets/sounds/Table_Whoosh1.wav']);
+    this.game.load.audio('woosh4', ['assets/sounds/Table_Whoosh1.wav']);    
+
+    this.game.load.audio('cathit1', ["assets/sounds/Cat_Hit1.wav"]);
+    this.game.load.audio('cathit2', ["assets/sounds/Cat_Hit2.wav"]);
+
     this.game.load.spritesheet('diamondCounter', 'assets/sprites/hudsheet.png', 32, 32);
   },
 
@@ -60,6 +78,12 @@ Player.prototype = {
     this.sprite.animations.add('crouch', [15], 8, false);    
     this.sprite.animations.add('channel', [29, 30], 18, true);    
     this.sprite.animations.add('knockback', [36], 10, true);  
+
+    for (var i = 1; i <= 3; i++){
+      this.game.add.audio("dogthrow" + i, 1, true);
+      this.game.add.audio("dogthrow" + i, 1, true);
+      this.game.add.audio("dogthrow" + i, 1 , true);
+    }
 
     this.addPhysics();
   },
@@ -120,6 +144,7 @@ Player.prototype = {
     if (!this.loss){
       this.checkKeyboard();
       this.isAirborne = false;
+
     } else {
       this.sprite.animations.stop();
       this.sprite.frame = this.loss_frame; // 46 
@@ -135,6 +160,7 @@ Player.prototype = {
       this.wasChannelSuccessful = false;
       this.isChanneling = false;
       tableManager.hitDefender(sprite, table);
+
     } else {
       tableManager.hitAttacker(sprite, table);
     }
@@ -184,6 +210,7 @@ Player.prototype = {
       }
       else if (this.isAirborne) {
         this.sprite.animations.play('jump');
+
       }
       else if (this.downKey.isDown) {
         this.sprite.animations.play('crouch');
@@ -207,11 +234,17 @@ Player.prototype = {
       if (this.cooldown > 0 || this.num_tables >= MAX_TABLES) {
         return;
       }
+
       this.cooldown = 45;
       this.done_flip = false;
       var _this = this;
       setTimeout(function(){_this.shootBullet();}, 200);
       this.sprite.animations.play('flip');
+
+      var rn = getRandomInt(1,4);
+      var woosh = this.game.add.audio('woosh' + rn, 1, true);
+      woosh.play('',0,1,false);
+
       var _this = this;
       this.sprite.events.onAnimationComplete.add(function(){
             this.done_flip = true;
@@ -221,6 +254,16 @@ Player.prototype = {
     // Check jumps
     if (tryJump) {
       this.sprite.body.velocity.y = jumpSpeed;
+        var rn = getRandomInt(1,2);
+        if (this.name == 'p1'){
+          var jump_sound = this.game.add.audio('catjump' + rn, 1 ,false);
+          jump_sound.play('', 0, 1, false);
+
+        }
+        else {
+          var jump_sound = this.game.add.audio('dogjump' + rn, 1, false);
+          jump_sound.play('', 0, 1, false);
+        }
 
     }
 
@@ -256,6 +299,13 @@ Player.prototype = {
     if (this.num_tables >= MAX_TABLES) {
       return;
     }
+    
+    if (this.name == 'p2'){
+    var rn = getRandomInt(1, 3);
+    var dogthrow = this.game.add.audio('dogthrow' + rn, 1, true);
+    dogthrow.play('',0,1,false);
+    }
+
 
     var tableSpawnX = this.sprite.x + 10;
     var tableSpawnY =  this.sprite.y + 10;
@@ -362,6 +412,7 @@ Player2 = function(gomanager) {
   this.wasChannelSuccessful = false;
   this.isChanneling = false;
   this.isImmune = false;
+  this.name = 'p2';
   this.counter1 = null;
   this.counter2 = null;
   this.counter3 = null;
@@ -375,6 +426,23 @@ Player2 = function(gomanager) {
 
 Player2.prototype = {
   preload: function() {
+    //load sounds 
+    this.game.load.audio('dogthrow1', ['assets/sounds/Dog_Throw1.wav']);
+    this.game.load.audio('dogthrow2', ['assets/sounds/Dog_Throw2.wav']);
+    this.game.load.audio('dogthrow3', ['assets/sounds/Dog_Throw3.wav']);
+
+    this.game.load.audio('dogjump1', ['assets/sounds/Dog_Jump1.wav']);
+    this.game.load.audio('dogjump2', ['assets/sounds/Dog_Jump2.wav']);
+
+    this.game.load.audio('woosh1', ['assets/sounds/Table_Whoosh1.wav']);
+    this.game.load.audio('woosh2', ['assets/sounds/Table_Whoosh1.wav']);
+    this.game.load.audio('woosh3', ['assets/sounds/Table_Whoosh1.wav']);
+    this.game.load.audio('woosh4', ['assets/sounds/Table_Whoosh1.wav']);
+
+    this.game.load.audio('doghit1', ["assets/sounds/Dog_Hit1.wav"]);
+    this.game.load.audio('doghit2', ["assets/sounds/Dog_Hit2.wav"]);
+    this.game.load.audio('doghit3', ["assets/sounds/Dog_Hit2.wav"]);
+
   },
   create: function() {
     this.createHud();

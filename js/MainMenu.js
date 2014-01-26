@@ -21,7 +21,9 @@ MainMenu.prototype = {
 
         instruction = this.game.add.button(600, 600, 'instruction_btn', this.startInstruction, this, 2, 1, 0);  
         instruction.anchor.setTo(0.5, 0.5);
-        instruction.scale.setTo(0.4,0.5);     
+        instruction.scale.setTo(0.4,0.5);  
+
+           
     },
 
     startL1: function () {
