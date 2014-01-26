@@ -71,6 +71,8 @@ Game2ObjectManager = function(game) {
 Game2ObjectManager.prototype = {
 
   preload: function() {
+    this.load.audio('nightcity', ['assets/sounds/AMB_NightCity.wav']);
+
     this.load.spritesheet('dog', 'assets/sprites/dogsheet.png', 64, 80);
     this.load.spritesheet('cat', 'assets/sprites/catsheet.png', 64, 64);
     this.load.spritesheet('world', "assets/sprites/catdogworldsheet.png", 80, 80);
@@ -103,6 +105,9 @@ Game2ObjectManager.prototype = {
       player2.create();
       tableManager.create();
       hud.create();
+
+      var bgm = this.add.audio('nightcity', 1, true);
+      bgm.play('', 0,1,true);
     },
 
     update: function () {
