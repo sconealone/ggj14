@@ -4,6 +4,7 @@
 
 var LEFT = 0;
 var RIGHT = 1;
+var MAX_TABLES = 10;
 
 // I guess this is like a constructor
 Player = function(gomanager) {
@@ -11,8 +12,9 @@ Player = function(gomanager) {
   this.game = gomanager.game;
   this.sprite = null;
   this.direction = RIGHT;
-  this.num_tables = 10;
+  this.num_tables = 0;
   this.done_flip = true;
+  this.cooldown = 0;
 
   //count # of overlaps
   this.count = 0;
@@ -39,15 +41,16 @@ Player.prototype = {
 
     this.initializeKeys();
     this.addPhysics();
-
-    console.log(level.diamond);
   },
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
-    this.game.physics.collide(this.sprite, tableManager.attacks);
+    //this.game.physics.collide(this.sprite, tableManager.attacks);
     this.checkKeyboard();
     this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
+    if (this.cooldown > 0){
+      this.cooldown--;
+    }
   },
 
   /////////////////
@@ -85,7 +88,6 @@ Player.prototype = {
       else if (this.rightKey.isDown) {
         this.sprite.body.velocity.x = runSpeed;
         this.tryFaceCorrectDirection(RIGHT);
-        console.log('right key pressed');
         this.sprite.animations.play('right');
       }
       else if (this.upKey.isDown && isAirborne){
@@ -100,12 +102,17 @@ Player.prototype = {
 
 
     if (this.weakKey.isDown) {
+      if (this.cooldown > 0) {
+        return;
+      }
+      this.cooldown = 70;
       this.done_flip = false;
       this.shootBullet();
       this.sprite.animations.play('flip');
+      var _this = this;
       this.sprite.events.onAnimationComplete.add(function(){
             this.done_flip = true;
-          }, this);
+          }, _this);
     }
 
     // Check jumps
@@ -120,6 +127,10 @@ Player.prototype = {
     var tableSpawnX = this.sprite.x + 10;
     var tableSpawnY =  this.sprite.y - 10;
     var _this = this;
+    if (this.num_tables >= MAX_TABLES) {
+      return;
+    }
+    this.num_tables++;
     tableManager.shootBullet(_this,tableSpawnX, tableSpawnY, this.direction);
   },
 
@@ -140,11 +151,9 @@ Player.prototype = {
     this.sprite.scale.x *= -1;
   },
   collectDiamond: function(player, diamond) {
-    console.log(this.count);
     this.count++;
-    console.log(this.count);
     diamond.kill();
-}
+  }
 }
 
 
