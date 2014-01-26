@@ -33,7 +33,7 @@ Level.prototype = {
       this.game.load.image(this.goals[i], 'assets/sprites/' + this.goals[i] + '.png');
     }
 
-    this.game.load.image('ground', 'assets/backgrounds/floor1.png');
+    this.game.load.image('plat', 'assets/backgrounds/duskfloor.png');
 
     //object of interest
     this.game.load.spritesheet('diamond', 'assets/sprites/meteorite.png', 0, 0);
@@ -52,39 +52,39 @@ Level.prototype = {
     
     var floorHeight = 24;
     // Ground
-    this.floor = this.platforms.create(0, this.game.world.height - floorHeight, 'ground');
+    this.floor = this.platforms.create(0, this.game.world.height - floorHeight, 'plat');
     this.floor.body.immovable = true;
     this.floor.body.setSize(1280, 32, 0, 0);
     this.floor.scale.setTo(40, 1);
 
 
     // Ledges
-    var l1 = this.platforms.create(this.game.world.width/2, 350, 'ground');
+    var l1 = this.platforms.create(this.game.world.width/2, 350, 'plat');
     l1.scale.setTo(6.25,1);
     l1.body.immovable = true;
     l1.anchor.setTo(0.5,0.5);
 
-    var l2 = this.platforms.create(this.game.world.width/2 - 300, 500, 'ground');
+    var l2 = this.platforms.create(this.game.world.width/2 - 300, 500, 'plat');
     l2.scale.setTo(6.25,1);
     l2.body.immovable = true;
     l2.anchor.setTo(0.5,0.5);    
 
-    var l3 = this.platforms.create(this.game.world.width/2 + 300, 500, 'ground');
+    var l3 = this.platforms.create(this.game.world.width/2 + 300, 500, 'plat');
     l3.scale.setTo(6.25,1);
     l3.body.immovable = true;
     l3.anchor.setTo(0.5,0.5);  
 
-    var l4 = this.platforms.create(this.game.world.width/2 + 500, 350, 'ground');
+    var l4 = this.platforms.create(this.game.world.width/2 + 500, 350, 'plat');
     l4.scale.setTo(3,1);
     l4.body.immovable = true;
     l4.anchor.setTo(0.5,0.5);  
 
-    var l5 = this.platforms.create(this.game.world.width/2 - 500, 350, 'ground');
+    var l5 = this.platforms.create(this.game.world.width/2 - 500, 350, 'plat');
     l5.scale.setTo(3,1);
     l5.body.immovable = true;
     l5.anchor.setTo(0.5,0.5);              
 
-    var l6 = this.platforms.create(this.game.world.width/2, 600, 'ground');
+    var l6 = this.platforms.create(this.game.world.width/2, 600, 'plat');
     l6.scale.setTo(6.25,1);
     l6.body.immovable = true;
     l6.anchor.setTo(0.5,0.5);

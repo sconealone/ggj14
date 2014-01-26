@@ -40,7 +40,7 @@ Level1.prototype = {
       this.game.load.image(this.goals[i], 'assets/sprites/' + this.goals[i] + '.png');
     }
 
-    this.game.load.image('ground', 'assets/backgrounds/floor1.png');
+    this.game.load.image('plat', 'assets/backgrounds/junglefloor.png');
   },
 
   create: function() {
@@ -56,7 +56,7 @@ Level1.prototype = {
     
     var floorHeight = 24;
     // Ground
-    this.floor = this.platforms.create(0, this.game.world.height - floorHeight, 'ground');
+    this.floor = this.platforms.create(0, this.game.world.height - floorHeight, 'plat');
     this.floor.body.immovable = true;
     this.floor.body.setSize(1280, 32, 0, 0);
     this.floor.scale.setTo(40, 1);
@@ -110,28 +110,28 @@ Level1.prototype = {
 
     this.plat_tll = this.platforms.create(
       0,
-      this.game.world.height/2 - 120, 'ground');
+      this.game.world.height/2 - 120, 'plat');
     this.plat_tll.scale.setTo(3, 1);
     this.plat_tll.anchor.setTo(0, 0.5);
     this.plat_tll.body.immovable = true;
 
     this.plat_bl = this.platforms.create(
       this.game.world.width/2 - 300,
-      this.game.world.height/2 + 200, 'ground');
+      this.game.world.height/2 + 200, 'plat');
     this.plat_bl.scale.setTo(6, 1);
     this.plat_bl.anchor.setTo(0.5, 0.5);
     this.plat_bl.body.immovable = true;
 
     this.plat_ml = this.platforms.create(
       this.game.world.width/2 - 360,
-      this.game.world.height/2 + 30, 'ground');
+      this.game.world.height/2 + 30, 'plat');
     this.plat_ml.scale.setTo(3, 1);
     this.plat_ml.anchor.setTo(0, 0.5);
     this.plat_ml.body.immovable = true;
 
     this.plat_tl = this.platforms.create(
       this.game.world.width/2 - 268,
-      this.game.world.height/2 - 140, 'ground');
+      this.game.world.height/2 - 140, 'plat');
     this.plat_tl.scale.setTo(8, 1);
     this.plat_tl.anchor.setTo(0.5, 0.5);
     this.plat_tl.body.immovable = true;
@@ -139,14 +139,14 @@ Level1.prototype = {
 
     this.plat_bm = this.platforms.create(
       this.game.world.width/2,
-      this.game.world.height/2 + 70, 'ground');
+      this.game.world.height/2 + 70, 'plat');
     this.plat_bm.scale.setTo(1, 1);
     this.plat_bm.anchor.setTo(0.5, 0.5);
     this.plat_bm.body.immovable = true;
 
     this.plat_mml = this.platforms.create(
       this.game.world.width/2,
-      this.game.world.height/2 - 100, 'ground');
+      this.game.world.height/2 - 100, 'plat');
     this.plat_mml.scale.setTo(0.5, 0.5);
     this.plat_mml.anchor.setTo(0.5, 0.5);
     this.plat_mml.body.immovable = true;
@@ -163,28 +163,28 @@ Level1.prototype = {
 
     this.plat_trr = this.platforms.create(
       this.game.world.width,
-      this.game.world.height/2 - 120, 'ground');
+      this.game.world.height/2 - 120, 'plat');
     this.plat_trr.scale.setTo(3, 1);
     this.plat_trr.anchor.setTo(1, 0.5);
     this.plat_trr.body.immovable = true;
 
     this.plat_br = this.platforms.create(
       this.game.world.width/2 + 300,
-      this.game.world.height/2 + 200, 'ground');
+      this.game.world.height/2 + 200, 'plat');
     this.plat_br.scale.setTo(6, 1);
     this.plat_br.anchor.setTo(0.5, 0.5);
     this.plat_br.body.immovable = true;
 
     this.plat_mr = this.platforms.create(
       this.game.world.width/2 + 360,
-      this.game.world.height/2 + 30, 'ground');
+      this.game.world.height/2 + 30, 'plat');
     this.plat_mr.scale.setTo(3, 1);
     this.plat_mr.anchor.setTo(1, 0.5);
     this.plat_mr.body.immovable = true;
 
     this.plat_tr = this.platforms.create(
       this.game.world.width/2 + 268,
-      this.game.world.height/2 - 140, 'ground');
+      this.game.world.height/2 - 140, 'plat');
     this.plat_tr.scale.setTo(8, 1);
     this.plat_tr.anchor.setTo(0.5, 0.5);
     this.plat_tr.body.immovable = true;

@@ -34,7 +34,7 @@ Level2.prototype = {
       this.game.load.image(this.goals[i], 'assets/sprites/' + this.goals[i] + '.png');
     }
 
-    this.game.load.image('ground', 'assets/backgrounds/floor1.png');
+    this.game.load.image('plat', 'assets/backgrounds/nightfloor.png');
 
     //object of interest
     this.game.load.spritesheet('diamond', 'assets/sprites/meteorite.png', 0, 0);
@@ -53,46 +53,46 @@ Level2.prototype = {
     
     var floorHeight = 24;
     // Ground
-    this.floor = this.platforms.create(0, this.game.world.height - floorHeight, 'ground');
+    this.floor = this.platforms.create(0, this.game.world.height - floorHeight, 'plat');
     this.floor.body.immovable = true;
     this.floor.body.setSize(1280, 32, 0, 0);
     this.floor.scale.setTo(40, 1);
 
 
     // Ledges
-    var l1 = this.platforms.create(100 + 100, this.game.world.height - 250, 'ground');
+    var l1 = this.platforms.create(100 + 100, this.game.world.height - 250, 'plat');
     l1.scale.setTo(6.25,1);
     l1.body.immovable = true;
 
-    var l2 = this.platforms.create(400 + 100, this.game.world.height - 300, 'ground');
+    var l2 = this.platforms.create(400 + 100, this.game.world.height - 300, 'plat');
     l2.scale.setTo(1,9.38);
     l2.body.immovable = true;
 
-    var l3 = this.platforms.create(400+400, this.game.world.height- 350, 'ground');
+    var l3 = this.platforms.create(400+400, this.game.world.height- 350, 'plat');
     l3.scale.setTo(1, 10.94);
     l3.body.immovable = true;
 
-    var l4 = this.platforms.create(750,  300, 'ground');
+    var l4 = this.platforms.create(750,  300, 'plat');
     l4.scale.setTo(6.0, 1);
     l4.body.immovable = true;
 
-    var l5 = this.platforms.create(900, this.game.world.height - 200, 'ground');
+    var l5 = this.platforms.create(900, this.game.world.height - 200, 'plat');
     l5.scale.setTo(3.25, 1);
     l5.body.immovable = true;
 
-    var l6 = this.platforms.create(550, 250, 'ground');
+    var l6 = this.platforms.create(550, 250, 'plat');
     l6.scale.setTo(1, 1);
     l6.body.immovable = true;    
 
-    var l7 = this.platforms.create(300, 200, 'ground');
+    var l7 = this.platforms.create(300, 200, 'plat');
     l7.scale.setTo(2, 1);
     l7.body.immovable = true;
 
-    var l8 = this.platforms.create(1100, this.game.world.height - 350, 'ground');
+    var l8 = this.platforms.create(1100, this.game.world.height - 350, 'plat');
     l8.scale.setTo(4, 1);
     l8.body.immovable = true;    
 
-    var l9 = this.platforms.create(150, 400, 'ground');
+    var l9 = this.platforms.create(150, 400, 'plat');
     l9.scale.setTo(3, 1);
     l9.body.immovable = true; 
 
