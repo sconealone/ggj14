@@ -1,5 +1,6 @@
 Globe = function(game) {
 	this.game = game;
+	this.final_frame = 0;
 }
 
 Globe.prototype = {
@@ -15,6 +16,7 @@ Globe.prototype = {
 
 	create: function() {
 		this.sprite = this.game.add.sprite(this.game.world.width/2, 10, 'world');
+		this.final_animation = this.sprite.animations.add('final', [0, this.final_frame], 6, true);   
 
 	},
 	fade: function (nextState) 
@@ -49,10 +51,16 @@ Globe.prototype = {
 	changeState: function(world, player) {
 
 		//this.fadeOut();
-		
-		setTimeout(function (){
-		level.game.state.start('mainmenu')
-		}, 2000);
+	  this.sprite.animations.play('final');
+
+      this.sprite.kill();
+      setTimeout(function() {
+      	if (level.p1_diamonds > level.p2_diamonds){
+			level.game.state.start('catwin');
+		} else {
+        	level.game.state.start('dogwin');
+    	}
+      }, 2000);
 	},	
 
 	update: function() {
@@ -63,29 +71,44 @@ Globe.prototype = {
 		switch (n){
 			case 0:
 				//neutral world
-				this.sprite.frame = 0;
+				var frame = 0
+				this.sprite.frame = frame;
+				this.final_frame = frame;
 			  break;
 			case 1:
 			  //execute code block 2
-			  	this.sprite.frame = 1;
+			  	var frame = 1
+			  	this.sprite.frame = frame;
+			  	this.final_frame = frame;
 			  break;
 			case 2:
-				this.sprite.frame = 2;
+				var frame = 2
+				this.sprite.frame = frame;
+				this.final_frame = frame;
 				break;
 			case 3:
-				this.sprite.frame = 3;
+				var frame = 3
+				this.sprite.frame = frame;
+				this.final_frame = frame;
 				break;
 			case -1:
-				this.sprite.frame = 4;
+				var frame = 4
+				this.sprite.frame = frame;
+				this.final_frame = frame;
 				break;
 			case -2:
-				this.sprite.frame = 5;
+				var frame = 5
+				this.sprite.frame = frame;
+				this.final_frame = frame;
 				break;
 			case -3:
-				this.sprite.frame = 6;
+				var frame = 6
+				this.sprite.frame = frame;
+				this.final_frame = frame;
 				break;
 			default:
 				this.sprite.frame = 0;
+				this.final_frame = frame;
 				break;
 		}
 
@@ -93,10 +116,11 @@ Globe.prototype = {
 
 	      globe.sprite.body.gravity.y = 6;
 	      this.game.physics.collide(this.sprite, level.platforms);
-
+	      
 	      if (p1 >= 3){
 	      	//overlap the world with p1
 	      	this.game.physics.overlap(this.sprite, this.game.player1.sprite, this.changeState, null, this);
+	      	
 	      	//console.log('overlapped');
 	      }
 	      if (p2 >= 3){
