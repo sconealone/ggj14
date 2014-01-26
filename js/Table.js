@@ -14,7 +14,7 @@ Table = function(gomanager) {
 Table.prototype = {
 
 	  preload: function() {
-      this.game.load.image('table', '../assets/placeholder/table.png');
+      this.game.load.image('table', '../assets/sprites/table.png');
 	  },
 
     create: function () {

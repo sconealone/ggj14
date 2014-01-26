@@ -31,7 +31,7 @@ Player.prototype = {
 
   create: function() {
     var spawnOffsetY = 24;
-    var spawnOffsetX = 24;
+    var spawnOffsetX = 32 + 24;
     this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
     this.sprite.anchor.x = 0.5;
 
@@ -87,10 +87,10 @@ Player.prototype = {
       else if (this.rightKey.isDown) {
         this.sprite.body.velocity.x = runSpeed;
         this.tryFaceCorrectDirection(RIGHT);
+        console.log('right key pressed');
         this.sprite.animations.play('right');
       }
       else if (this.upKey.isDown && isAirborne){
-
         this.sprite.animations.play('jump');
       }
       else {
@@ -157,6 +157,8 @@ Player2 = function(game) {
   this.direction = RIGHT;
   this.cursors = null;
 
+  this.done_flip = true;
+
   //count # of overlaps
   this.count = 0;
 }
@@ -165,7 +167,7 @@ Player2 = function(game) {
 
 Player2.prototype = {
   preload: function() {
-    this.game.load.spritesheet('dog', 'assets/placeholder/dog.png', 64, 80);
+    this.game.load.spritesheet('dog', 'assets/sprites/dogwalksheet.png', 64, 80);
   },
   create: function() {
     var spawnOffsetY = 24;
@@ -175,6 +177,11 @@ Player2.prototype = {
     var spawnY = this.game.world.height - (spriteHeight + spawnOffsetY);
     this.sprite = this.game.add.sprite(spawnOffsetX, spawnY, 'dog');
     this.sprite.scale.x = -1;
+
+    this.sprite.animations.add('left', [1, 2, 3, 4, 5, 6, 7], 10, true);
+    this.sprite.animations.add('right', [1, 2, 3, 4, 5, 6, 7], 10, true);
+    this.sprite.animations.add('jump', [37], 10, true);
+    this.sprite.animations.add('flip', [9,10,11], 6, false);   
 
     this.initializeKeys();
     this.addPhysics();
@@ -193,6 +200,7 @@ Player2.prototype = {
     this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.O);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
   }
+
 };
 
 // Fake Inherited
