@@ -6,7 +6,7 @@ Level = function(game) {
   this.game = game;
   this.platforms = null;
 
-  this.diamond = null;
+  this.diamond = 'hey';
 }
 
 // Note: nothing to do with this being the prototype level

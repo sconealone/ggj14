@@ -8,6 +8,9 @@ Player = function(game) {
   this.sprite = null;
   // Cursors are how we control the player
   this.cursors = null;
+
+  //count # of overlaps
+  this.count = 0;
 };
 
 Player.prototype = {
@@ -26,15 +29,13 @@ Player.prototype = {
     this.initializeKeys();
     this.addPhysics();
 
-    //# of overlaps
-    var count = 0;
-    this.collectDiamond();
+    console.log(level.diamond);
   },
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
     this.checkKeyboard();
-    this.game.physics.overlap(this.sprite, level.diamond, collectDiamond, null, this);
+    this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
   },
 
   /////////////////
@@ -84,12 +85,13 @@ Player.prototype = {
     this.sprite.body.bounce.y = 0.2;
     this.sprite.body.gravity.y = 30;
     this.sprite.body.collideWorldBounds = true;
-  }
+  },
 
-}
-
-function collectDiamond(player, diamond) {
-    player.count++;
-    alert(player.count);
+  collectDiamond: function(player, diamond) {
+    console.log(this.count);
+    this.count++;
+    console.log(this.count);
     diamond.kill();
 }
+};
+
