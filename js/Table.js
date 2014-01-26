@@ -22,6 +22,7 @@ Table.prototype = {
     shootBullet: function (attacker, startX, startY, direction) {
 
       var attack = this.attacks.create(startX, startY, 'table');
+      this.game.debug.renderSpriteBody(attack);
       attack.headbounce = 0;
       attack.bonce = 0;
 
@@ -114,16 +115,19 @@ Table.prototype = {
     // What should happen when two tables collide:
     // The tables should stick to each other.
     hitTable: function (table1, table2) {
+      table1.headbounce = 999;
+      table2.headbounce = 999;
+
       table2.body.bounce.y = 0;
       table2.body.bounce.x = 0;
       table2.body.angularVelocity = 0;
       table2.body.velocity.x = 0;
       table2.body.velocity.y = 0;
-      table2.body.gravity.y = 0;
+      //table2.body.gravity.y = 0;
 
       table1.body.velocity.x = 0;
       table1.body.velocity.y = 0;
-      table1.body.gravity.y = 0.0;
+      //table1.body.gravity.y = 0.0;
     },
 
     update: function () {
@@ -132,7 +136,6 @@ Table.prototype = {
     }
 
     var _this = this;
-    this.game.physics.collide(this.attacks, this.manager.player1.sprite, this.hitAttacker, null, _this);
     this.game.physics.collide(this.attacks, this.attacks, this.hitTable, null, _this);
     this.game.physics.collide(this.attacks, level.platforms, this.hitFloor, null, _this);
   }

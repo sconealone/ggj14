@@ -15,6 +15,7 @@ Player = function(gomanager) {
   this.num_tables = 0;
   this.done_flip = true;
   this.cooldown = 0;
+  this.isAirborne = false;
 
   //count # of overlaps
   this.count = 0;
@@ -45,11 +46,15 @@ Player.prototype = {
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
-    this.checkKeyboard();
     this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
     if (this.cooldown > 0){
       this.cooldown--;
     }
+    var _this = this;
+    this.game.physics.collide(tableManager.attacks, this.sprite, tableManager.hitAttacker, null, _this);
+    this.isAirborne = !this.sprite.body.touching.down || this.isAirborne;
+    this.checkKeyboard();
+    this.isAirborne = false;
   },
 
   /////////////////
@@ -69,10 +74,10 @@ Player.prototype = {
   },
 
   checkKeyboard: function() {
-    var isAirborne = !this.sprite.body.touching.down;
-    var tryJump = this.upKey.isDown && !isAirborne;
+    //console.log( this.isAirborne);
+    var tryJump = this.upKey.isDown && !this.isAirborne;
     var jumpSpeed = -800;
-    var runSpeed = isAirborne ? 180: 250;
+    var runSpeed = this.isAirborne ? 180: 250;
 
     this.sprite.body.velocity.x = 0;
     this.sprite.anchor.x = 0.5;
@@ -82,14 +87,16 @@ Player.prototype = {
       if (this.leftKey.isDown) {
         this.sprite.body.velocity.x = -runSpeed;
         this.tryFaceCorrectDirection(LEFT);
-        this.sprite.animations.play('left');
+        var animationName = this.isAirborne ? 'jump' : 'left';
+        this.sprite.animations.play(animationName);
       }
       else if (this.rightKey.isDown) {
         this.sprite.body.velocity.x = runSpeed;
         this.tryFaceCorrectDirection(RIGHT);
-        this.sprite.animations.play('right');
+        var animationName = this.isAirborne ? 'jump' : 'right';
+        this.sprite.animations.play(animationName);
       }
-      else if (this.upKey.isDown && isAirborne){
+      else if (this.isAirborne) {
         this.sprite.animations.play('jump');
       }
       else {
@@ -102,7 +109,7 @@ Player.prototype = {
 
     if (this.weakKey.isDown) {
       // Actually is it better to play the animation?
-      if (this.cooldown > 0 || this.num_tables= > MAX_TABLES) {
+      if (this.cooldown > 0 || this.num_tables >= MAX_TABLES) {
         return;
       }
       this.cooldown = 70;
@@ -137,7 +144,7 @@ Player.prototype = {
   // I want to have this read in at the constructor
   // This way one player can choos different characters
   addPhysics: function() {
-    this.sprite.body.bounce.y = 0.1;
+    this.sprite.body.bounce.y = 0.0;
     this.sprite.body.gravity.y = 30;
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.mass = 0.1;
