@@ -22,6 +22,7 @@ Player = function(gomanager) {
   this.loss = false;
   this.loss_frame = 15;
   this.knock_back_is_playing = false;
+  this.isImmune = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -54,8 +55,24 @@ Player.prototype = {
 
     this.addPhysics();
   },
-  collidePlayers: function (player1, player2) {
-
+  collidePlayers: function (player1_p, player2_p) {
+    console.log("COLLIDE");
+    var stompee = null;
+    var stomper = null;
+    if (player1_p.body.touching.up) { // getting stomped on
+      stompee = player1_p;
+      stomper = player2_p;
+    }
+    else {
+      stompee = player2_p;
+      stomper = player1_p;
+    }
+    if (stompee.owner.knock_back_is_playing || stompee.owner.isImmune) {
+      return;
+    }
+    stompee.owner.knock_back_is_playing = true;
+    stompee.animations.play('knockback');
+    setTimeout(function(){stompee.owner.makeImmuneToKnockback();stompee.owner.knock_back_is_playing=false;stompee.animations.stop;stompee.frame=0;}, 500);
   },
 
   update: function() {
@@ -203,6 +220,12 @@ Player.prototype = {
     setTimeout(function(){_this.knock_back_is_playing=false;sprite.animations.stop;sprite.frame=0;}, 700);
   },
 
+  makeImmuneToKnockback: function() {
+    this.isImmune = true;
+    var _this = this;
+    setTimeout(function(){_this.isImmune = false;}, 300);
+  },
+
   // Fire a table. Weak attack.
   shootBullet: function() {
     if (this.num_tables >= MAX_TABLES) {
@@ -280,6 +303,7 @@ Player2 = function(gomanager) {
   this.knock_back_is_playing = false;
   this.wasChannelSuccessful = false;
   this.isChanneling = false;
+  this.isImmune = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -353,3 +377,4 @@ Player2.prototype.hitPlayer = Player.prototype.hitPlayer;
 Player2.prototype.knockBack = Player.prototype.knockBack;
 Player2.prototype.tryCollectDiamond = Player.prototype.tryCollectDiamond;
 Player2.prototype.collidePlayers = Player.prototype.collidePlayers;
+Player2.prototype.makeImmuneToKnockback = Player.prototype.makeImmuneToKnockback;
