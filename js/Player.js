@@ -11,6 +11,8 @@ Player = function(gomanager) {
   this.game = gomanager.game;
   this.sprite = null;
   this.direction = RIGHT;
+  this.num_tables = 10;
+
 };
 
 Player.prototype = {
@@ -100,7 +102,7 @@ Player.prototype = {
     this.sprite.body.bounce.y = 0.1;
     this.sprite.body.gravity.y = 30;
     this.sprite.body.collideWorldBounds = true;
-    this.sprite.body.mass = 0.5;
+    this.sprite.body.mass = 0.1;
   },
 
   tryFaceCorrectDirection: function(tryTurnDirection) {
