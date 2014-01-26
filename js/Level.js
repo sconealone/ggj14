@@ -75,22 +75,31 @@ Level.prototype = {
   },
 
   update: function() {
+    if (this.p1_diamonds >= 3 || this.p2_diamonds >=3){
+      
+      globe.sprite.body.gravity.y = 6;
+    }
+
     if (this.p1_diamonds >= 3) {
       //console.log('player1 wins');
-      setTimeout(function() {
+      // setTimeout(function() {
 
-        level.game.state.start('mainmenu');
-      }, 2000);
+      //   level.game.state.start('mainmenu');
+      // }, 2000);
+      globe.sprite.body.gravity.y = 6;
+
+
 
 
     }
     else if (this.p2_diamonds >= 3){
       //console.log('player2 wins');
-      setTimeout(function() {
+      // setTimeout(function() {
 
-        level.game.state.start('mainmenu');
-      }, 2000);
+      //   level.game.state.start('mainmenu');
+      // }, 2000);
 
+      globe.sprite.body.gravity.y = 6;
     }
 
     this.game.physics.collide(this.diamonds, this.platforms);

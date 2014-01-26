@@ -17,10 +17,48 @@ Globe.prototype = {
 		this.sprite = this.game.add.sprite(this.game.world.width/2, 10, 'world');
 
 	},
+	fade: function (nextState) 
+	    {
+	        var spr_bg = this.game.add.graphics(0, 0);
+	        spr_bg.beginFill(this.fadeColor, 1);
+	        spr_bg.drawRect(0, 0, this.game.width, this.game.height);
+	        spr_bg.alpha = 0;
+	        spr_bg.endFill();
+
+	        this.nextState = nextState;
+
+	        s = this.game.add.tween(spr_bg)
+	        s.to({ alpha: 1 }, 500, null)
+	        s.onComplete.add(this.changeState, this)
+	        s.start();
+	    },
+
+
+    fadeOut: function () 
+    {
+        var spr_bg = this.game.add.graphics(0, 0);
+        spr_bg.beginFill(this.fadeColor, 1);
+        spr_bg.drawRect(0, 0, this.game.width, this.game.height);
+        spr_bg.alpha = 1;
+        spr_bg.endFill();
+
+        s = this.game.add.tween(spr_bg)
+        s.to({ alpha: 0 }, 600, null)
+        s.start();
+    },
+	changeState: function(world, player) {
+
+		//this.fadeOut();
+		
+		setTimeout(function (){
+		level.game.state.start('mainmenu')
+		}, 2000);
+	},	
 
 	update: function() {
-
-		var n = level.p1_diamonds - level.p2_diamonds;
+		var p1 = level.p1_diamonds;
+		var p2 = level.p2_diamonds;
+		var n = p1 - p2;
 
 		switch (n){
 			case 0:
@@ -50,6 +88,23 @@ Globe.prototype = {
 				this.sprite.frame = 0;
 				break;
 		}
+
+	    if (p1 >= 3 || p2 >= 3){
+
+	      globe.sprite.body.gravity.y = 6;
+	      this.game.physics.collide(this.sprite, level.platforms);
+
+	      if (p1 >= 3){
+	      	//overlap the world with p1
+	      	this.game.physics.overlap(this.sprite, this.game.player1.sprite, this.changeState, null, this);
+	      	//console.log('overlapped');
+	      }
+	      if (p2 >= 3){
+	      	this.game.physics.overlap(this.sprite, this.game.player2.sprite, this.changeState, null, this);
+	      }
+
+	    }
+
 	}
 
 
