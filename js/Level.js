@@ -2,8 +2,9 @@
   Prototype level. There will just be a floor and some walls.
 */
 
-Level = function(game) {
-  this.game = game;
+Level = function(gomanager) {
+  this.manager = gomanager;
+  this.game = gomanager.game;
   this.platforms = null;
 
   this.diamond = null;
@@ -32,6 +33,10 @@ Level.prototype = {
     // Ground
     this.floor = this.platforms.create(0, this.game.world.height - floorHeight, 'ground');
     this.floor.body.immovable = true;
+    this.floor.body.setSize(1280, 24, 0, 0);
+
+    // var platform2 = this.platforms.create(50, this.game.world.height - 70, 'ground');
+    // platform2.body.immovable = true;
 
     // Walls
     var leftWall = this.platforms.create(0, -floorHeight, 'wall');

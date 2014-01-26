@@ -1,25 +1,39 @@
 // Level is global
-Game = function(game) {
+// All managers are global
+GameObjectManager = function(game) {
 	this.game = game;
 	level = null;
+  tableManager = null;
 }
 
-Game.prototype = {
+GameObjectManager.prototype = {
 
 	preload: function() {
-		level = new Level(this.game);
-		this.player = new Player(this.game);
+    _this = this;
+		level = new Level(_this);
+		this.player1 = new Player(_this);
+		this.player2 = new Player2(_this);
+		tableManager = new Table(_this);
+
   		level.preload();
-  		this.player.preload();
+  		this.player1.preload();
+  		this.player2.preload();
+  		tableManager.preload();
 	},
 
   create: function () {
-    level.create();
+    	level.create();
 
-    this.player.create();
-  },
+  		this.player1.create();
+  		this.player2.create();
+  		tableManager.create();
+    },
 
-  update: function () {
-    this.player.update()        
-  }
+    update: function () {
+
+    	this.player1.update();
+    	this.player2.update();
+    	tableManager.update(); 
+    }
+
 }
