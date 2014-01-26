@@ -7,7 +7,7 @@ Level = function(gomanager) {
   this.game = gomanager.game;
   this.platforms = null;
 
-  this.diamond = null;
+  this.diamond = 'hey';
 }
 
 // Note: nothing to do with this being the prototype level

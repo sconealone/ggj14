@@ -13,6 +13,8 @@ Player = function(gomanager) {
   this.direction = RIGHT;
   this.num_tables = 10;
 
+  //count # of overlaps
+  this.count = 0;
 };
 
 Player.prototype = {
@@ -32,15 +34,13 @@ Player.prototype = {
     this.initializeKeys();
     this.addPhysics();
 
-    //# of overlaps
-    var count = 0;
-    this.collectDiamond();
+    console.log(level.diamond);
   },
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
     this.checkKeyboard();
-    this.game.physics.overlap(this.sprite, level.diamond, collectDiamond, null, this);
+    this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
   },
 
   /////////////////
@@ -116,14 +116,13 @@ Player.prototype = {
     }
     this.direction = tryTurnDirection;
     this.sprite.scale.x *= -1;
-  }
-
-}
-
-function collectDiamond(player, diamond) {
-    player.count++;
-    alert(player.count);
+  },
+  collectDiamond: function(player, diamond) {
+    console.log(this.count);
+    this.count++;
+    console.log(this.count);
     diamond.kill();
+}
 }
 
 
