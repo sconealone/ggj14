@@ -190,6 +190,8 @@ Player.prototype = {
 
 
     if (this.weakKey.isDown && !this.knock_back_is_playing) {
+
+
       // Actually is it better to play the animation?
       if (this.cooldown > 0 || this.num_tables >= MAX_TABLES) {
         return;
@@ -243,6 +245,7 @@ Player.prototype = {
     if (this.num_tables >= MAX_TABLES) {
       return;
     }
+
     var tableSpawnX = this.sprite.x + 10;
     var tableSpawnY =  this.sprite.y + 10;
     var _this = this;
@@ -274,7 +277,9 @@ Player.prototype = {
     level.total_diamonds--;
 
     if(level.p1_diamonds < 3 && level.p2_diamonds < 3){
-      level.spawnDiamond();
+      console.log(5- level.total_diamonds);
+      var point = 5 - level.total_diamonds -1;
+      level.spawnDiamond(level.offsetX[point], level.offsetY[point]);
     }
 
   },
@@ -331,12 +336,16 @@ Player2.prototype = {
 
     this.initializeKeys();
 
-    var spawnOffsetY = 24;
-    var spawnOffsetX = this.game.world.width - 24;
-    this.direction = LEFT;
+    // var spawnOffsetY = 24;
+    // var spawnOffsetX = this.game.world.width - 24;
+    //this.direction = LEFT;
     var spriteHeight = 80;
-    var spawnY = this.game.world.height - (spriteHeight + spawnOffsetY);
-    this.sprite = this.game.add.sprite(spawnOffsetX, spawnY, 'dog');
+    // var spawnY = this.game.world.height - (spriteHeight + spawnOffsetY);
+    //this.sprite = this.game.add.sprite(spawnOffsetX, spawnY, 'dog');
+    var spawnOffsetY = 24;
+    var spawnOffsetX = 32 + 24 + 20;
+    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (32 + spawnOffsetY), 'dog');
+    this.direction = LEFT;
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
     this.sprite.owner = this;
@@ -376,7 +385,9 @@ Player2.prototype = {
     level.total_diamonds--;
 
     if(level.p2_diamonds < 3 && level.p1_diamonds < 3){
-      level.spawnDiamond();
+      var point = 5 - level.total_diamonds -1;
+      console.log(5- level.total_diamonds);
+      level.spawnDiamond(level.offsetX[point], level.offsetY[point]);
     }
 
   },

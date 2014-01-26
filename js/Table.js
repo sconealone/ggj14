@@ -77,11 +77,12 @@ Table.prototype = {
 
     hitDefender: function(sprite, table) {
       // Raise the table's death flag
-      killTable(table);
-
+      
       if (sprite.owner.knock_back_is_playing) {
         return;
       }
+      killTable(table);
+
       // Knockback defender
       sprite.owner.knockBack(sprite, table);
 
