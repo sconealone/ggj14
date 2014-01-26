@@ -46,7 +46,6 @@ Table.prototype = {
       }
 
       attack.anchor.setTo(0.5, 0.5);
-      console.log("weaponized? " + attack.isWeaponized);
 
     },    
 

@@ -124,7 +124,8 @@ Player.prototype = {
       }
       this.cooldown = 60;
       this.done_flip = false;
-      this.shootBullet();
+      var _this = this;
+      setTimeout(function(){_this.shootBullet();}, 200);
       this.sprite.animations.play('flip');
       var _this = this;
       this.sprite.events.onAnimationComplete.add(function(){
