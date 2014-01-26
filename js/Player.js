@@ -22,7 +22,7 @@ Player.prototype = {
   // Public
   /////////////////
   preload: function() {
-    this.game.load.spritesheet('cat', 'assets/placeholder/catcl.png', 64, 64);
+    this.game.load.spritesheet('cat', 'assets/sprites/catsheet.png', 64, 64);
   },
 
   create: function() {
@@ -142,7 +142,7 @@ Player2 = function(game) {
 
 Player2.prototype = {
   preload: function() {
-    this.game.load.spritesheet('dog', 'assets/placeholder/dog.png', 64, 80);
+    this.game.load.spritesheet('dog', 'assets/sprites/dogsheet.png', 64, 80);
   },
   create: function() {
     var spawnOffsetY = 24;

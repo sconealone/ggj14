@@ -7,18 +7,18 @@ Level = function(gomanager) {
   this.game = gomanager.game;
   this.platforms = null;
 
-  this.diamond = 'hey';
+  this.diamond = null;
 }
 
 // Note: nothing to do with this being the prototype level
 Level.prototype = {
   preload: function() {
-    this.game.load.image('sky', 'assets/placeholder/sky.png');
-    this.game.load.image('ground', 'assets/placeholder/floor.png');
-    this.game.load.image('wall', 'assets/placeholder/wall.png');
+    this.game.load.image('sky', 'assets/bg/sky.png');
+    this.game.load.image('ground', 'assets/sprites/floor.png');
+    this.game.load.image('wall', 'assets/sprites/wall.png');
 
     //object of interest
-    this.game.load.spritesheet('diamond', 'assets/diamond.png', 0, 0);
+    this.game.load.spritesheet('diamond', 'assets/icons/diamond.png', 0, 0);
   },
 
   create: function() {
