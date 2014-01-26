@@ -4,6 +4,7 @@
 
 var LEFT = 0;
 var RIGHT = 1;
+var MAX_TABLES = 10;
 
 // I guess this is like a constructor
 Player = function(gomanager) {
@@ -11,8 +12,10 @@ Player = function(gomanager) {
   this.game = gomanager.game;
   this.sprite = null;
   this.direction = RIGHT;
-  this.num_tables = 10;
+  this.num_tables = 0;
   this.done_flip = true;
+  this.cooldown = 0;
+  this.isAirborne = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -40,17 +43,29 @@ Player.prototype = {
 
     this.initializeKeys();
     this.addPhysics();
-
   },
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
-    this.game.physics.collide(this.sprite, tableManager.attacks);
-    this.checkKeyboard();   
-
     this.game.physics.overlap(this.sprite, level.diamonds, this.collectDiamond, null, this);
+    this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
+    if (this.cooldown > 0){
+      this.cooldown--;
+    }
+    var _this = this;
+    this.game.physics.collide(tableManager.attacks, this.sprite, this.hitPlayer, null, _this);
+    this.isAirborne = !this.sprite.body.touching.down || this.isAirborne;
+    this.checkKeyboard();
+    this.isAirborne = false;
+  },
 
-
+  hitPlayer: function(sprite, table) {
+    var attacker = table.attacker;
+    if (sprite != attacker.sprite && table.isWeaponized) {
+      tableManager.hitDefender(sprite, table);
+    } else {
+      tableManager.hitAttacker(sprite, table);
+    }
   },
 
   /////////////////
@@ -70,10 +85,9 @@ Player.prototype = {
   },
 
   checkKeyboard: function() {
-    var isAirborne = !this.sprite.body.touching.down;
-    var tryJump = this.upKey.isDown && !isAirborne;
+    var tryJump = this.upKey.isDown && !this.isAirborne;
     var jumpSpeed = -800;
-    var runSpeed = isAirborne ? 180: 250;
+    var runSpeed = this.isAirborne ? 180: 250;
 
     this.sprite.body.velocity.x = 0;
     this.sprite.anchor.x = 0.5;
@@ -83,14 +97,16 @@ Player.prototype = {
       if (this.leftKey.isDown) {
         this.sprite.body.velocity.x = -runSpeed;
         this.tryFaceCorrectDirection(LEFT);
-        this.sprite.animations.play('left');
+        var animationName = this.isAirborne ? 'jump' : 'left';
+        this.sprite.animations.play(animationName);
       }
       else if (this.rightKey.isDown) {
         this.sprite.body.velocity.x = runSpeed;
         this.tryFaceCorrectDirection(RIGHT);
-        this.sprite.animations.play('right');
+        var animationName = this.isAirborne ? 'jump' : 'right';
+        this.sprite.animations.play(animationName);
       }
-      else if (this.upKey.isDown && isAirborne){
+      else if (this.isAirborne) {
         this.sprite.animations.play('jump');
       }
       else {
@@ -102,12 +118,18 @@ Player.prototype = {
 
 
     if (this.weakKey.isDown) {
+      // Actually is it better to play the animation?
+      if (this.cooldown > 0 || this.num_tables >= MAX_TABLES) {
+        return;
+      }
+      this.cooldown = 70;
       this.done_flip = false;
       this.shootBullet();
       this.sprite.animations.play('flip');
+      var _this = this;
       this.sprite.events.onAnimationComplete.add(function(){
             this.done_flip = true;
-          }, this);
+          }, _this);
     }
 
     // Check jumps
@@ -119,16 +141,20 @@ Player.prototype = {
 
   // Fire a table. Weak attack.
   shootBullet: function() {
+    if (this.num_tables >= MAX_TABLES) {
+      return;
+    }
     var tableSpawnX = this.sprite.x + 10;
     var tableSpawnY =  this.sprite.y + 10;
     var _this = this;
+    this.num_tables++;
     tableManager.shootBullet(_this,tableSpawnX, tableSpawnY, this.direction);
   },
 
   // I want to have this read in at the constructor
   // This way one player can choos different characters
   addPhysics: function() {
-    this.sprite.body.bounce.y = 0.1;
+    this.sprite.body.bounce.y = 0.0;
     this.sprite.body.gravity.y = 30;
     this.sprite.body.collideWorldBounds = true;
     this.sprite.body.mass = 0.1;
@@ -153,7 +179,6 @@ Player.prototype = {
       level.spawnDiamond();
     }
 
-    console.log("level's total diamonds left: " + level.total_diamonds);
   }  
 
 }
@@ -232,4 +257,4 @@ Player2.prototype.addPhysics = Player.prototype.addPhysics;
 Player2.prototype.checkKeyboard = Player.prototype.checkKeyboard;
 Player2.prototype.tryFaceCorrectDirection = Player.prototype.tryFaceCorrectDirection;
 Player2.prototype.shootBullet = Player.prototype.shootBullet;
-
+Player2.prototype.hitPlayer = Player.prototype.hitPlayer;
