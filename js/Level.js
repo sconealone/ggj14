@@ -73,8 +73,8 @@ Level.prototype = {
     var item = Math.floor(Math.random() * (3 - 0 + 1)) + 0;
 
     var diamond = this.diamonds.create(spawnOffSetX, spawnOffSetY, this.goals[item]);
-    this.diamond.body.gravity.y = 8;
-    this.diamond.body.bounce.y = 0.4 + Math.random() * 0.2;
+    diamond.body.gravity.y = 8;
+    diamond.body.bounce.y = 0.4 + Math.random() * 0.2;
   },
 
   update: function() {

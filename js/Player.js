@@ -97,7 +97,9 @@ Player.prototype = {
     var jumpSpeed = -800;
     var runSpeed = this.isAirborne ? 180: 250;
 
-    this.sprite.body.velocity.x = 0;
+    if (!this.knock_back_is_playing) {
+      this.sprite.body.velocity.x = 0;
+    }
     this.sprite.anchor.x = 0.5;
 
     // Check movement
@@ -160,11 +162,11 @@ Player.prototype = {
     this.knock_back_is_playing = true;
     sprite.animations.play('knockback');
     var isTableGoingRight = table.body.x < sprite.body.x;
-    var angle = -70;
+    var angle = 180;
     var speed = 80;
     if (isTableGoingRight)
     {
-      angle = 70;
+      angle = 0;
     }
     this.game.physics.velocityFromAngle(angle, speed, sprite.body.velocity);
     var _this = this;
