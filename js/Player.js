@@ -33,9 +33,11 @@ Player.prototype = {
   /////////////////
   preload: function() {
     this.game.load.spritesheet('cat', 'assets/sprites/catsheet.png', 64, 64);
+    this.game.load.image('hud_icon', "assets/sprites/table.png");
   },
 
   create: function() {
+    this.createHud();
 
     this.initializeKeys();
     var spawnOffsetY = 24;
@@ -58,6 +60,13 @@ Player.prototype = {
   collidePlayers: function (player1, player2) {
 
   },
+  createHud: function(num_tables){
+
+    this.hud = this.game.add.sprite(100, 60, 'hud_icon');
+    this.hud.scale.setTo(0.5,0.5);
+    this.num_table_display = this.game.add.text(100 + 60, 60, 'x 10', { fontSize: '14px', fill: '#000' });
+    this.win_count = this.game.add.text(100, 100, "Win: 0/5", {fontSize: '14px', fill: '#000'});
+  },
 
   update: function() {
     if (this.sprite.y > level.floor.y - this.sprite.height/2) {
@@ -79,6 +88,9 @@ Player.prototype = {
       this.sprite.animations.stop();
       this.sprite.frame = this.loss_frame; // 46 
     }
+    //this.createHud(this.num_tables);
+    this.num_table_display.content = "x " + (MAX_TABLES - this.num_tables);
+    this.win_count.content = "Win: " + this.num_diamonds + "/5";
   },
 
   hitPlayer: function(sprite, table) {
@@ -226,7 +238,7 @@ Player.prototype = {
   collectDiamond: function(player, diamond) {
 
     level.p1_diamonds++;
-
+    this.num_diamonds++;
     diamond.kill();
     level.total_diamonds--;
 
@@ -284,6 +296,8 @@ Player2.prototype = {
     this.game.load.spritesheet('dog', 'assets/sprites/dogsheet.png', 64, 80);
   },
   create: function() {
+    this.createHud();
+
     this.initializeKeys();
 
     var spawnOffsetY = 24;
@@ -325,6 +339,7 @@ Player2.prototype = {
   collectDiamond: function(player, diamond) {
 
     level.p2_diamonds++;
+    this.num_diamonds++;
 
     diamond.kill();
     level.total_diamonds--;
@@ -333,7 +348,16 @@ Player2.prototype = {
       level.spawnDiamond();
     }
 
-  }  
+  },
+
+  createHud: function(num_tables){
+
+    this.hud = this.game.add.sprite(this.game.world.width - 200, 60, 'hud_icon');
+    this.hud.scale.setTo(0.5,0.5);
+    this.num_table_display = this.game.add.text(this.game.world.width - 200 + 60, 60, 'x 10', { fontSize: '14px', fill: '#000' });
+    this.win_count = this.game.add.text(this.game.world.width-200, 100, "Win: 0/5", {fontSize: '14px', fill: '#000'});
+    //this.win_count = this.game.add.text(this.game.world.width-200, 80, "Win: 0", {fontSize: '14px', fill: '#000'});  
+  },    
 };
 
 // Fake Inherited
