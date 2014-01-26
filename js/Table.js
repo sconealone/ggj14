@@ -77,9 +77,16 @@ Table.prototype = {
 
 
     hitDefender: function(sprite, table) {
-      // Knockback defender
-
       // Raise the table's death flag
+      killTable(table);
+
+      if (sprite.owner.knock_back_is_playing) {
+        return;
+      }
+      // Knockback defender
+      sprite.owner.knockBack(sprite, table);
+
+
     },
 
     // What should happen when the table hits the player who originally
@@ -105,12 +112,7 @@ Table.prototype = {
         var tableWasHitFromBelow = sprite.body.touching.up && table.headbounce >= 3;
 
         if (tableWasHitFromAbove || tableWasHitFromBelow) {
-          table.death_flag = true;
-
-          setTimeout(function() {
-            table.kill();
-            attacker.num_tables--;
-          }, 600); 
+          killTable(table);
           return;
         } 
 
@@ -149,4 +151,12 @@ Table.prototype = {
     this.game.physics.collide(this.attacks, this.attacks, this.hitTable, null, _this);
     this.game.physics.collide(this.attacks, level.platforms, this.hitFloor, null, _this);
   }
+};
+
+killTable = function(table) {
+  table.death_flag = true;
+  setTimeout(function() {
+            table.kill();
+            table.attacker.num_tables--;
+          }, 400); 
 };

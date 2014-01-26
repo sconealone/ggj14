@@ -18,6 +18,7 @@ Player = function(gomanager) {
   this.isAirborne = false;
   this.loss = false;
   this.loss_frame = 15;
+  this.knock_back_is_playing = false;]
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -32,25 +33,32 @@ Player.prototype = {
   },
 
   create: function() {
-    var spawnOffsetY = 24;
-    var spawnOffsetX = 32 + 24;
-    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
-    this.sprite.anchor.x = 0.5;
-    this.sprite.anchor.y = 0.5;
-
-    this.sprite.animations.add('left', [1, 2, 3, 4, 5], 10, true);
-    this.sprite.animations.add('right', [1, 2, 3, 4, 5], 10, true);
-    this.sprite.animations.add('jump', [22], 10, true);
-    this.sprite.animations.add('flip', [7,8,9], 8, false);    
 
     this.initializeKeys();
+    var spawnOffsetY = 24;
+    var spawnOffsetX = 32 + 24;
+    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (32 + spawnOffsetY), 'cat');
+    this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
+    this.sprite.owner = this;
+
+    this.sprite.animations.add('left', [1, 2, 3, 4], 12, true);
+    this.sprite.animations.add('right', [1, 2, 3, 4], 12, true);
+    this.sprite.animations.add('jump', [22], 10, true);
+    this.sprite.animations.add('flip', [7,8,9], 8, false);    
+    this.sprite.animations.add('crouch', [15], 8, false);    
+    this.sprite.animations.add('channel', [41], 8, true);    
+    this.sprite.animations.add('knockback', [36], 10, true);  
+
     this.addPhysics();
   },
 
   update: function() {
+    if (this.sprite.y > level.floor.y - this.sprite.height/2) {
+      this.sprite.y = level.floor.y - this.sprite.height/2;
+    }
     this.game.physics.collide(this.sprite, level.platforms);
     this.game.physics.overlap(this.sprite, level.diamonds, this.collectDiamond, null, this);
-    this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
     if (this.cooldown > 0){
       this.cooldown--;
     }
@@ -84,23 +92,27 @@ Player.prototype = {
     this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.D);
     this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.W);
     this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
-
     // Attack
     // Keys subject to change!
     this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
+
+    // Getting Knocked Back
+    this.knockBackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.X);
   },
 
   checkKeyboard: function() {
-    var tryJump = this.upKey.isDown && !this.isAirborne;
+    var tryJump = this.upKey.isDown && !this.isAirborne && !this.knock_back_is_playing;
     var jumpSpeed = -800;
     var runSpeed = this.isAirborne ? 180: 250;
 
-    this.sprite.body.velocity.x = 0;
+    if (!this.knock_back_is_playing) {
+      this.sprite.body.velocity.x = 0;
+    }
     this.sprite.anchor.x = 0.5;
 
     // Check movement
-    if (this.done_flip){
+    if (this.done_flip && !this.knock_back_is_playing){
       if (this.leftKey.isDown) {
         this.sprite.body.velocity.x = -runSpeed;
         this.tryFaceCorrectDirection(LEFT);
@@ -116,6 +128,9 @@ Player.prototype = {
       else if (this.isAirborne) {
         this.sprite.animations.play('jump');
       }
+      else if (this.downKey.isDown) {
+        this.sprite.animations.play('crouch');
+      }
       else {
         // stop animation code will go here
         this.sprite.animations.stop();
@@ -124,7 +139,7 @@ Player.prototype = {
     }
 
 
-    if (this.weakKey.isDown) {
+    if (this.weakKey.isDown && !this.knock_back_is_playing) {
       // Actually is it better to play the animation?
       if (this.cooldown > 0 || this.num_tables >= MAX_TABLES) {
         return;
@@ -145,6 +160,26 @@ Player.prototype = {
       this.sprite.body.velocity.y = jumpSpeed;
 
     }
+
+  },
+
+  // Knock Back function
+  knockBack: function(sprite, table) {
+    if (this.knock_back_is_playing) {
+      return;
+    }
+    this.knock_back_is_playing = true;
+    sprite.animations.play('knockback');
+    var isTableGoingRight = table.body.x < sprite.body.x;
+    var angle = 180;
+    var speed = 80;
+    if (isTableGoingRight)
+    {
+      angle = 0;
+    }
+    this.game.physics.velocityFromAngle(angle, speed, sprite.body.velocity);
+    var _this = this;
+    setTimeout(function(){_this.knock_back_is_playing=false;sprite.animations.stop;sprite.frame=0;}, 700);
   },
 
   // Fire a table. Weak attack.
@@ -178,7 +213,6 @@ Player.prototype = {
   collectDiamond: function(player, diamond) {
 
     level.p1_diamonds++;
-    console.log(level.p1_diamonds);
 
     diamond.kill();
     level.total_diamonds--;
@@ -188,7 +222,6 @@ Player.prototype = {
     }
 
   }  
-
 }
 
 
@@ -204,6 +237,7 @@ Player2 = function(gomanager) {
   this.isAirborne = false;
   this.loss = false;
   this.loss_frame = 46;
+  this.knock_back_is_playing = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -216,20 +250,27 @@ Player2.prototype = {
     this.game.load.spritesheet('dog', 'assets/sprites/dogsheet.png', 64, 80);
   },
   create: function() {
+    this.initializeKeys();
+
     var spawnOffsetY = 24;
     var spawnOffsetX = this.game.world.width - 24;
     this.direction = LEFT;
     var spriteHeight = 80;
     var spawnY = this.game.world.height - (spriteHeight + spawnOffsetY);
     this.sprite = this.game.add.sprite(spawnOffsetX, spawnY, 'dog');
+    this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
+    this.sprite.owner = this;
     this.sprite.scale.x = -1;
 
-    this.sprite.animations.add('left', [1, 2, 3, 4, 5, 6, 7], 10, true);
-    this.sprite.animations.add('right', [1, 2, 3, 4, 5, 6, 7], 10, true);
-    this.sprite.animations.add('jump', [37], 10, true);
+    this.sprite.animations.add('left',  [1, 2, 3, 4, 4, 5, 6], 17, true);
+    this.sprite.animations.add('right', [1, 2, 3, 4, 4, 5, 6], 17, true);
+    this.sprite.animations.add('jump', [28], 10, true);
     this.sprite.animations.add('flip', [9,10,11], 8, false);   
+    this.sprite.animations.add('crouch', [19], 10, true);
+    this.sprite.animations.add('channel', [37], 10, true);
+    this.sprite.animations.add('knockback', [46], 10, true);
 
-    this.initializeKeys();
     this.addPhysics();
   },
 
@@ -243,13 +284,13 @@ Player2.prototype = {
 
     // Attack
     // Keys subject to change!
-    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.O);
+    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.U);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
+    this.knockBackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Z);
   },
   collectDiamond: function(player, diamond) {
 
     level.p2_diamonds++;
-    console.log(level.p2_diamonds);
 
     diamond.kill();
     level.total_diamonds--;
@@ -258,9 +299,7 @@ Player2.prototype = {
       level.spawnDiamond();
     }
 
-    console.log("level's total diamonds left: " + level.total_diamonds);
   }  
-
 };
 
 // Fake Inherited
@@ -270,3 +309,5 @@ Player2.prototype.checkKeyboard = Player.prototype.checkKeyboard;
 Player2.prototype.tryFaceCorrectDirection = Player.prototype.tryFaceCorrectDirection;
 Player2.prototype.shootBullet = Player.prototype.shootBullet;
 Player2.prototype.hitPlayer = Player.prototype.hitPlayer;
+Player2.prototype.knockBack = Player.prototype.knockBack;
+Player2.prototype.tryCollectDiamond = Player.prototype.tryCollectDiamond;

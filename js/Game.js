@@ -38,5 +38,8 @@ GameObjectManager.prototype = {
     	this.player2.update();
     	tableManager.update(); 
       level.update();
+    },
+    render: function() {
+      this.game.debug.renderSpriteBody(level.floor2);
     }
 }
