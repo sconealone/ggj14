@@ -4,7 +4,7 @@ Preloader = function(game) {
 
 Preloader.prototype = {
     preload: function () {
-    	this.game.load.image('splash', 'assets/backgrounds/splash.png');
+    	this.game.load.image('splash', 'assets/backgrounds/splashfinal.png');
         this.game.load.image('start', 'assets/sprites/startbutton.png');
     },
 

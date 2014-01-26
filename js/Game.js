@@ -14,8 +14,10 @@ GameObjectManager.prototype = {
 		this.player1 = new Player(_this);
 		this.player2 = new Player2(_this);
 		tableManager = new Table(_this);
+    globe = new Globe(_this);
 
   		level.preload();
+      globe.preload();
   		this.player1.preload();
   		this.player2.preload();
   		tableManager.preload();
@@ -23,7 +25,7 @@ GameObjectManager.prototype = {
 
   create: function () {
     	level.create();
-
+      globe.create();
   		this.player1.create();
   		this.player2.create();
   		tableManager.create();
@@ -31,7 +33,7 @@ GameObjectManager.prototype = {
 
     update: function () {
 
-
+      globe.update();
     	this.player1.update();
     	this.player2.update();
     	tableManager.update(); 
