@@ -8,9 +8,6 @@ Globe.prototype = {
 	preload: function(){
 		//this.game.load.image('neutral', 'assets/sprites/world.png');
 
-		this.game.load.spritesheet('world', "assets/sprites/catdogworldsheet.png", 80, 80);
-		this.game.load.spritesheet('catworld', "assets/sprites/catworldsheet.png", 80, 80);
-		this.game.load.spritesheet('dogworld', "assets/sprites/dogworldsheet.png", 80, 80);
 
 	},
 
@@ -53,11 +50,12 @@ Globe.prototype = {
 		//this.fadeOut();
 	  this.sprite.animations.play('final');
 
-      this.sprite.kill();
-      setTimeout(function() {
-      	if (level.p1_diamonds > level.p2_diamonds){
-			level.game.state.start('catwin');
-		} else {
+    var _this = this;
+    setTimeout(function() {_this.sprite.kill();}, 700);
+    setTimeout(function() {
+      if (level.p1_diamonds > level.p2_diamonds){
+        level.game.state.start('catwin');
+      } else {
         	level.game.state.start('dogwin');
     	}
       }, 2000);

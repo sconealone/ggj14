@@ -32,7 +32,6 @@ Player.prototype = {
   // Public
   /////////////////
   preload: function() {
-    this.game.load.spritesheet('cat', 'assets/sprites/catsheet.png', 64, 64);
   },
 
   create: function() {
@@ -78,6 +77,7 @@ Player.prototype = {
     } else {
       this.sprite.animations.stop();
       this.sprite.frame = this.loss_frame; // 46 
+      this.sprite.body.velocity.x = 0;
     }
   },
 
@@ -281,7 +281,6 @@ Player2 = function(gomanager) {
 
 Player2.prototype = {
   preload: function() {
-    this.game.load.spritesheet('dog', 'assets/sprites/dogsheet.png', 64, 80);
   },
   create: function() {
     this.initializeKeys();
