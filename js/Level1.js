@@ -22,16 +22,13 @@ Level1.prototype = {
 
     this.goals = ["meteorite", "petfood", "toaster", "kettle"];
     
-    this.game.load.image('sky', 'assets/backgrounds/bg1.png');
+    this.game.load.image('sky', 'assets/backgrounds/bg2.png');
 
     for (var i =0; i < 4; i++) {
       this.game.load.image(this.goals[i], 'assets/sprites/' + this.goals[i] + '.png');
     }
 
     this.game.load.image('ground', 'assets/backgrounds/floor1.png');
-
-    //object of interest
-    this.game.load.spritesheet('diamond', 'assets/sprites/meteorite.png', 0, 0);
   },
 
   create: function() {
@@ -134,6 +131,7 @@ Level1.prototype = {
     this.plat_bm.anchor.setTo(0.5, 0.5);
     this.plat_bm.body.immovable = true;
 
+    /*
     this.plat_mml = this.platforms.create(
       this.game.world.width/2 - 65,
       this.game.world.height/2 - 80, 'ground');
@@ -147,6 +145,7 @@ Level1.prototype = {
     this.plat_mmr.scale.setTo(2, 0.5);
     this.plat_mmr.anchor.setTo(0.5, 0.5);
     this.plat_mmr.body.immovable = true;
+    */
 
 
     this.plat_trr = this.platforms.create(
