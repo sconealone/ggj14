@@ -2,7 +2,6 @@ Table = function(gomanager) {
   this.manager = gomanager;
 	this.game = gomanager.game;
   this.attacks = null;
-  this.bounce = 0;
   this.landed = false;
   this.break_counter = 70;
   this.death_flag = false;
@@ -22,9 +21,8 @@ Table.prototype = {
     shootBullet: function (attacker, startX, startY, direction) {
 
       var attack = this.attacks.create(startX, startY, 'table');
-      this.game.debug.renderSpriteBody(attack);
       attack.headbounce = 0;
-      attack.bonce = 0;
+      attack.bounce = 0;
 
       // Can this physics information be added to the group?
       attack.body.bounce.y = 0.4;
@@ -36,6 +34,7 @@ Table.prototype = {
       attack.body.drag.setTo(200, 100);
       attack.body.angularDrag = 50;
       attack.attacker = attacker;
+      attack.isWeaponized = true;
 
       var scaleX = (direction == LEFT) ? -1 : 1;
       var tableAngle = scaleX * 60;
@@ -44,10 +43,12 @@ Table.prototype = {
       this.game.physics.velocityFromAngle(tableAngle, tableSpeed, attack.body.velocity);
 
       attack.anchor.setTo(0.5, 0.5);
+      console.log("weaponized? " + attack.isWeaponized);
 
     },    
 
     hitFloor: function (table, platform) {
+      table.isWeaponized = false;
       table.bounce++;
 
       if (table.bounce >= 2){
@@ -72,15 +73,19 @@ Table.prototype = {
       }
     },
 
+
+    hitDefender: function(sprite, table) {
+      // Knockback defender
+
+      // Raise the table's death flag
+    },
+
     // What should happen when the table hits the player who originally
     // threw it.
     hitAttacker: function (sprite, table) {
         if (table.death_flag) {
           return;
         }
-
-        // The player isn't neccessarily an attacker
-        var attacker = table.attacker;
 
         // Reasons for destroying a table:
 
@@ -92,6 +97,7 @@ Table.prototype = {
         // 2. The player is hitting the table from below, and the headbounces are used up
 
         // Crashing into tables from the side doesn't destroy them.
+        var attacker = table.attacker;
 
         var tableWasHitFromAbove = table.body.touching.up;
         var tableWasHitFromBelow = sprite.body.touching.up && table.headbounce >= 3;
@@ -115,6 +121,8 @@ Table.prototype = {
     // What should happen when two tables collide:
     // The tables should stick to each other.
     hitTable: function (table1, table2) {
+      table1.isWeaponized = false;
+      table2.isWeaponized = false;
       table1.headbounce = 999;
       table2.headbounce = 999;
 

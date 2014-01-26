@@ -51,10 +51,19 @@ Player.prototype = {
       this.cooldown--;
     }
     var _this = this;
-    this.game.physics.collide(tableManager.attacks, this.sprite, tableManager.hitAttacker, null, _this);
+    this.game.physics.collide(tableManager.attacks, this.sprite, this.hitPlayer, null, _this);
     this.isAirborne = !this.sprite.body.touching.down || this.isAirborne;
     this.checkKeyboard();
     this.isAirborne = false;
+  },
+
+  hitPlayer: function(sprite, table) {
+    var attacker = table.attacker;
+    if (sprite != attacker.sprite && table.isWeaponized) {
+      tableManager.hitDefender(sprite, table);
+    } else {
+      tableManager.hitAttacker(sprite, table);
+    }
   },
 
   /////////////////
@@ -74,7 +83,6 @@ Player.prototype = {
   },
 
   checkKeyboard: function() {
-    //console.log( this.isAirborne);
     var tryJump = this.upKey.isDown && !this.isAirborne;
     var jumpSpeed = -800;
     var runSpeed = this.isAirborne ? 180: 250;
@@ -224,4 +232,4 @@ Player2.prototype.checkKeyboard = Player.prototype.checkKeyboard;
 Player2.prototype.tryFaceCorrectDirection = Player.prototype.tryFaceCorrectDirection;
 Player2.prototype.collectDiamond = Player.prototype.collectDiamond;
 Player2.prototype.shootBullet = Player.prototype.shootBullet;
-
+Player2.prototype.hitPlayer = Player.prototype.hitPlayer;
