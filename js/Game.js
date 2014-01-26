@@ -17,6 +17,7 @@ GameObjectManager.prototype = {
 		this.load.image('dogwin', "assets/backgrounds/dogwin.png");
 		this.load.image('fliplevel', "assets/backgrounds/fliptonext.png");
 		this.load.image('catwin', "assets/backgrounds/catwin.png");
+    this.load.spritesheet('table', 'assets/sprites/tablesheet.png', 80, 32);
     _this = this;
 		level = new Level(_this);
 		player1 = new Player(_this);
