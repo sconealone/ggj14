@@ -55,6 +55,9 @@ Player.prototype = {
 
     this.addPhysics();
   },
+  collidePlayers: function (player1, player2) {
+
+  },
 
   update: function() {
     if (this.sprite.y > level.floor.y - this.sprite.height/2) {
@@ -62,6 +65,7 @@ Player.prototype = {
     }
     this.game.physics.collide(this.sprite, level.platforms);
     this.game.physics.overlap(this.sprite, level.diamonds, this.tryCollectDiamond, null, this);
+    this.game.physics.collide(player1.sprite, player2.sprite, this.collidePlayers, null, this);
     if (this.cooldown > 0){
       this.cooldown--;
     }
@@ -341,3 +345,4 @@ Player2.prototype.shootBullet = Player.prototype.shootBullet;
 Player2.prototype.hitPlayer = Player.prototype.hitPlayer;
 Player2.prototype.knockBack = Player.prototype.knockBack;
 Player2.prototype.tryCollectDiamond = Player.prototype.tryCollectDiamond;
+Player2.prototype.collidePlayers = Player.prototype.collidePlayers;

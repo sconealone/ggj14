@@ -119,12 +119,12 @@ Globe.prototype = {
 	      
 	      if (p1 >= 3){
 	      	//overlap the world with p1
-	      	this.game.physics.overlap(this.sprite, this.game.player1.sprite, this.changeState, null, this);
+	      	this.game.physics.overlap(this.sprite, player1.sprite, this.changeState, null, this);
 	      	
 	      	//console.log('overlapped');
 	      }
 	      if (p2 >= 3){
-	      	this.game.physics.overlap(this.sprite, this.game.player2.sprite, this.changeState, null, this);
+	      	this.game.physics.overlap(this.sprite, player2.sprite, this.changeState, null, this);
 	      }
 
 	    }

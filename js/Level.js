@@ -82,14 +82,14 @@ Level.prototype = {
 
     if (this.p1_diamonds >= 3) {
       globe.sprite.body.gravity.y = 6;
-      this.manager.player2.loss = true;
+      player2.loss = true;
 
 
     }
     else if (this.p2_diamonds >= 3){
 
       globe.sprite.body.gravity.y = 6;
-      this.manager.player1.loss = true;
+      player1.loss = true;
     }
 
     this.game.physics.collide(this.diamonds, this.platforms);
