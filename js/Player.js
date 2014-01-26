@@ -35,7 +35,7 @@ Player.prototype = {
     this.initializeKeys();
     var spawnOffsetY = 24;
     var spawnOffsetX = 32 + 24;
-    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
+    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (32 + spawnOffsetY), 'cat');
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
     this.sprite.owner = this;
@@ -52,9 +52,11 @@ Player.prototype = {
   },
 
   update: function() {
+    if (this.sprite.y > level.floor.y - this.sprite.height/2) {
+      this.sprite.y = level.floor.y - this.sprite.height/2;
+    }
     this.game.physics.collide(this.sprite, level.platforms);
     this.game.physics.overlap(this.sprite, level.diamonds, this.collectDiamond, null, this);
-    this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
     if (this.cooldown > 0){
       this.cooldown--;
     }
@@ -247,6 +249,8 @@ Player2.prototype = {
     var spriteHeight = 80;
     var spawnY = this.game.world.height - (spriteHeight + spawnOffsetY);
     this.sprite = this.game.add.sprite(spawnOffsetX, spawnY, 'dog');
+    this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
     this.sprite.owner = this;
     this.sprite.scale.x = -1;
 
@@ -297,3 +301,4 @@ Player2.prototype.tryFaceCorrectDirection = Player.prototype.tryFaceCorrectDirec
 Player2.prototype.shootBullet = Player.prototype.shootBullet;
 Player2.prototype.hitPlayer = Player.prototype.hitPlayer;
 Player2.prototype.knockBack = Player.prototype.knockBack;
+Player2.prototype.tryCollectDiamond = Player.prototype.tryCollectDiamond;
