@@ -6,8 +6,9 @@ var LEFT = 0;
 var RIGHT = 1;
 
 // I guess this is like a constructor
-Player = function(game) {
-  this.game = game;
+Player = function(gomanager) {
+  this.manager = gomanager;
+  this.game = gomanager.game;
   this.sprite = null;
   this.direction = RIGHT;
 };
@@ -47,8 +48,8 @@ Player.prototype = {
 
     // Attack
     // Keys subject to change!
-    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
-    this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Y);
+    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
+    this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
   },
 
   checkKeyboard: function() {
@@ -75,11 +76,22 @@ Player.prototype = {
     }
 
     // Check attacks
+    if (this.weakKey.isDown) {
+      this.shootBullet();
+    }
 
     // Check jumps
     if (tryJump) {
       this.sprite.body.velocity.y = jumpSpeed;
     }
+  },
+
+  // Fire a table. Weak attack.
+  shootBullet: function() {
+    var tableSpawnX = this.sprite.x + 10;
+    var tableSpawnY =  this.sprite.y - 10;
+    var _this = this;
+    tableManager.shootBullet(_this,tableSpawnX, tableSpawnY, this.direction);
   },
 
   // I want to have this read in at the constructor
