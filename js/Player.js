@@ -143,7 +143,7 @@ Player.prototype = {
     // Attack
     // Keys subject to change!
     this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
-    this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
+    this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
 
     // Getting Knocked Back
     this.knockBackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.X);
@@ -191,7 +191,7 @@ Player.prototype = {
     }
 
 
-    if (this.weakKey.isDown && !this.knock_back_is_playing) {
+    if ((this.weakKey.isDown || this.strongKey.isDown) && !this.knock_back_is_playing) {
 
 
       // Actually is it better to play the animation?
@@ -374,7 +374,7 @@ Player2.prototype = {
     // Attack
     // Keys subject to change!
     this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.QUESTION_MARK);
-    this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
+    this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.SHIFT);
     this.knockBackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Z);
   },
   collectDiamond: function(player, diamond) {

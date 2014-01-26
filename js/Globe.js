@@ -13,8 +13,11 @@ Globe.prototype = {
 	},
 
 	create: function() {
-		this.sprite = this.game.add.sprite(this.game.world.width/2, 10, 'world');
+		this.sprite = this.game.add.sprite(this.game.world.width/2, 70, 'world');
     this.sprite.anchor.x = 0.5;
+    this.sprite.anchor.y = 0.5;
+    this.sprite.body.angularVelocity = 50;
+    this.sprite.body.angularDrag = 0;
 		this.final_animation = this.sprite.animations.add('final', [0, this.final_frame], 6, true);   
 
 	},
