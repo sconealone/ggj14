@@ -29,7 +29,6 @@ Level.prototype = {
     }
 
     this.game.load.image('ground', 'assets/backgrounds/floor1.png');
-    this.game.load.image('wall', 'assets/sprites/wall.png');
 
     //object of interest
     this.game.load.spritesheet('diamond', 'assets/sprites/meteorite.png', 0, 0);
