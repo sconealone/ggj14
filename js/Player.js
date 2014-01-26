@@ -14,8 +14,8 @@ Player = function(gomanager) {
   this.num_tables = 10;
   this.done_flip = true;
 
-  //count # of overlaps
-  this.count = 0;
+  //count # of collected diamonds
+  this.num_diamonds = 0;
 };
 
 Player.prototype = {
@@ -41,14 +41,16 @@ Player.prototype = {
     this.initializeKeys();
     this.addPhysics();
 
-    console.log(level.diamond);
   },
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
     this.game.physics.collide(this.sprite, tableManager.attacks);
-    this.checkKeyboard();
-    this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
+    this.checkKeyboard();   
+
+    this.game.physics.overlap(this.sprite, level.diamonds, this.collectDiamond, null, this);
+
+
   },
 
   /////////////////
@@ -140,11 +142,20 @@ Player.prototype = {
     this.sprite.scale.x *= -1;
   },
   collectDiamond: function(player, diamond) {
-    console.log(this.count);
-    this.count++;
-    console.log(this.count);
+
+    level.p1_diamonds++;
+    console.log(level.p1_diamonds);
+
     diamond.kill();
-}
+    level.total_diamonds--;
+
+    if(level.p1_diamonds < 3 && level.p2_diamonds < 3){
+      level.spawnDiamond();
+    }
+
+    console.log("level's total diamonds left: " + level.total_diamonds);
+  }  
+
 }
 
 
@@ -158,7 +169,7 @@ Player2 = function(game) {
   this.done_flip = true;
 
   //count # of overlaps
-  this.count = 0;
+  this.num_diamonds = 0;
 }
 
 // Public
@@ -197,7 +208,21 @@ Player2.prototype = {
     // Keys subject to change!
     this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.O);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
-  }
+  },
+  collectDiamond: function(player, diamond) {
+
+    level.p2_diamonds++;
+    console.log(level.p2_diamonds);
+
+    diamond.kill();
+    level.total_diamonds--;
+
+    if(level.p2_diamonds < 3 && level.p1_diamonds < 3){
+      level.spawnDiamond();
+    }
+
+    console.log("level's total diamonds left: " + level.total_diamonds);
+  }  
 
 };
 
@@ -206,6 +231,5 @@ Player2.prototype.update = Player.prototype.update;
 Player2.prototype.addPhysics = Player.prototype.addPhysics;
 Player2.prototype.checkKeyboard = Player.prototype.checkKeyboard;
 Player2.prototype.tryFaceCorrectDirection = Player.prototype.tryFaceCorrectDirection;
-Player2.prototype.collectDiamond = Player.prototype.collectDiamond;
 Player2.prototype.shootBullet = Player.prototype.shootBullet;
 

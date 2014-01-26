@@ -7,7 +7,12 @@ Level = function(gomanager) {
   this.game = gomanager.game;
   this.platforms = null;
 
-  this.diamond = null;
+  this.diamonds = null;
+  this.total_diamonds = 5;
+
+  this.p1_diamonds = 0; //number of diamonds player 1 collected
+  this.p2_diamonds = 0; //number of diamonds player 2 collected
+  this.winner = null;
 }
 
 // Note: nothing to do with this being the prototype level
@@ -15,7 +20,7 @@ Level.prototype = {
   preload: function() {
     this.game.load.image('sky', 'assets/backgrounds/bg1.png');
 
-    this.game.load.image('ground', 'assets/sprites/floor.png');
+    this.game.load.image('ground', 'assets/backgrounds/floor1.png');
     this.game.load.image('wall', 'assets/sprites/wall.png');
 
     //object of interest
@@ -28,6 +33,7 @@ Level.prototype = {
     background.scale.setTo(0.8,0.8);
 
 
+
     // Platforms
     // All things that the players can collide with are considered platforms
     this.platforms = this.game.add.group();
@@ -36,29 +42,41 @@ Level.prototype = {
     // Ground
     this.floor = this.platforms.create(0, this.game.world.height - floorHeight, 'ground');
     this.floor.body.immovable = true;
-    this.floor.body.setSize(1280, 24, 0, 0);
+    this.floor.body.setSize(1280, 32, 0, 0);
+    this.floor.scale.setTo(40, 1);
 
-    // var platform2 = this.platforms.create(50, this.game.world.height - 70, 'ground');
-    // platform2.body.immovable = true;
-
-    // Walls
-    var leftWall = this.platforms.create(0, -floorHeight, 'wall');
-    var rightWall = this.platforms.create(this.game.world.width - floorHeight, -floorHeight, 'wall');
-    leftWall.body.immovable = true;
-    rightWall.body.immovable = true;
+    var floor2 = this.platforms.create(300, this.game.world.height/2 + 300, 'ground');
+    floor2.body.setSize(300, 32, 0 , 0);
+    floor2.scale.setTo(12.5, 1);
+    floor2.body.immovable = true;
 
     // Diamond Spawn
-    var spawnOffSetX = this.game.world.width/2;
-    // var spawnOffSetY = this.game.world.height - 2*floorHeight;
-    var spawnOffSetY = this.game.world.height/2;
-    this.diamond = this.game.add.sprite(spawnOffSetX, spawnOffSetY, 'diamond');
-    this.diamond.anchor.setTo(1, 1);
 
-    this.diamond.body.gravity.y = 6;
-    this.diamond.body.bounce.y = 0.5 + Math.random() * 0.2;
+    this.diamonds = this.game.add.group();
+    this.spawnDiamond();
+
+  },
+
+  spawnDiamond: function() {
+    var spawnOffSetX = this.game.world.width/2;
+    var spawnOffSetY = this.game.world.height/2;
+
+    var diamond = this.diamonds.create(spawnOffSetX, spawnOffSetY, 'diamond');
+    diamond.body.gravity.y = 6;
   },
 
   update: function() {
-    this.game.physics.collide(this.diamond, this.platforms);
+    if (this.p1_diamonds >= 3) {
+      console.log('player1 wins');
+      this.game.state.start('mainmenu');
+
+    }
+    else if (this.p2_diamonds >= 3){
+      console.log('player2 wins');
+      this.game.state.start('mainmenu');
+
+    }
+
+    this.game.physics.collide(this.diamonds, this.platforms);
   }
 };

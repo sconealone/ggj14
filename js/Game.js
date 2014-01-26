@@ -31,6 +31,7 @@ GameObjectManager.prototype = {
 
     update: function () {
 
+
     	this.player1.update();
     	this.player2.update();
     	tableManager.update(); 
