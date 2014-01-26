@@ -77,15 +77,16 @@ Table.prototype = {
 
 
     hitDefender: function(sprite, table) {
-      // Knockback defender
-      sprite.owner.knock_back = false;
-      sprite.animations.play('knockback');
-      sprite.events.onAnimationComplete.add(function(){sprite.owner.knock_back=true;},
-                                            sprite.owner);
-
-
       // Raise the table's death flag
       killTable(table);
+
+      if (sprite.owner.knock_back_is_playing) {
+        return;
+      }
+      // Knockback defender
+      sprite.owner.knockBack(sprite, table);
+
+
     },
 
     // What should happen when the table hits the player who originally
@@ -157,5 +158,5 @@ killTable = function(table) {
   setTimeout(function() {
             table.kill();
             table.attacker.num_tables--;
-          }, 600); 
+          }, 400); 
 };

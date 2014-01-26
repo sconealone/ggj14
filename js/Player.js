@@ -16,7 +16,7 @@ Player = function(gomanager) {
   this.done_flip = true;
   this.cooldown = 0;
   this.isAirborne = false;
-  this.knock_back = true;
+  this.knock_back_is_playing = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -93,7 +93,7 @@ Player.prototype = {
   },
 
   checkKeyboard: function() {
-    var tryJump = this.upKey.isDown && !this.isAirborne;
+    var tryJump = this.upKey.isDown && !this.isAirborne && !this.knock_back_is_playing;
     var jumpSpeed = -800;
     var runSpeed = this.isAirborne ? 180: 250;
 
@@ -101,7 +101,7 @@ Player.prototype = {
     this.sprite.anchor.x = 0.5;
 
     // Check movement
-    if (this.done_flip && this.knock_back){
+    if (this.done_flip && !this.knock_back_is_playing){
       if (this.leftKey.isDown) {
         this.sprite.body.velocity.x = -runSpeed;
         this.tryFaceCorrectDirection(LEFT);
@@ -128,7 +128,7 @@ Player.prototype = {
     }
 
 
-    if (this.weakKey.isDown) {
+    if (this.weakKey.isDown && !this.knock_back_is_playing) {
       // Actually is it better to play the animation?
       if (this.cooldown > 0 || this.num_tables >= MAX_TABLES) {
         return;
@@ -150,54 +150,25 @@ Player.prototype = {
 
     }
 
-    // Knocked Back
-    if (this.knockBackKey.isDown){
-      this.knock_back = false;
-      this.knockBack(this.sprite, this.sprite.body.velocity.x, this.sprite.body.touching);
-      this.sprite.animations.play('knockback');
-      this.sprite.events.onAnimationComplete.add(function(){
-            this.knock_back = true;
-          }, this);
-    }
   },
 
   // Knock Back function
-  knockBack: function(player, playerDirection, tableHitPlayerFrom){
-    console.log(tableHit)
-
-    // player right, table left
-    if ( playerDirection > 0 && tableHitPlayerFrom.touching.right)
-    this.sprite.body.velocity.x = (-1 * playerDirection) ;
-    this.sprite.body.velocity.y = -400 ;
-    this.sprite.body.rotation = 325;
-    this.sprite.body.angularVelocity = -90;
-    this.sprite.body.angularDrag = 90;
-    this.sprite.body.mass = 0.1;
-    this.sprite.body.gravity.y = 15;
-    this.sprite.anchor.setTo(0.5, 0.5);
-    this.sprite.body.bounce.y = 0.3;
-    this.sprite.body.collideWorldBounds = true;
-
-
-
-    // player right, table right
-    // player right, table top
-    // player right, table bottom
-    // player left, table left
-    // player left, table right
-    // player left, table top
-    // player left, table bottom
-
-    this.sprite.body.velocity.x = (-1 * playerDirection) ;
-    this.sprite.body.velocity.y = -400 ;
-    this.sprite.body.rotation = 325;
-    this.sprite.body.angularVelocity = -90;
-    this.sprite.body.angularDrag = 90;
-    this.sprite.body.mass = 0.1;
-    this.sprite.body.gravity.y = 15;
-    this.sprite.anchor.setTo(0.5, 0.5);
-    this.sprite.body.bounce.y = 0.3;
-    this.sprite.body.collideWorldBounds = true;
+  knockBack: function(sprite, table) {
+    if (this.knock_back_is_playing) {
+      return;
+    }
+    this.knock_back_is_playing = true;
+    sprite.animations.play('knockback');
+    var isTableGoingRight = table.body.x < sprite.body.x;
+    var angle = -70;
+    var speed = 80;
+    if (isTableGoingRight)
+    {
+      angle = 70;
+    }
+    this.game.physics.velocityFromAngle(angle, speed, sprite.body.velocity);
+    var _this = this;
+    setTimeout(function(){_this.knock_back_is_playing=false;sprite.animations.stop;sprite.frame=0;}, 700);
   },
 
   // Fire a table. Weak attack.
@@ -253,7 +224,7 @@ Player2 = function(gomanager) {
   this.done_flip = true;
   this.cooldown = 0;
   this.isAirborne = false;
-  this.knock_back = true;
+  this.knock_back_is_playing = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -323,3 +294,4 @@ Player2.prototype.checkKeyboard = Player.prototype.checkKeyboard;
 Player2.prototype.tryFaceCorrectDirection = Player.prototype.tryFaceCorrectDirection;
 Player2.prototype.shootBullet = Player.prototype.shootBullet;
 Player2.prototype.hitPlayer = Player.prototype.hitPlayer;
+Player2.prototype.knockBack = Player.prototype.knockBack;
