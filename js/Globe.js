@@ -14,6 +14,7 @@ Globe.prototype = {
 
 	create: function() {
 		this.sprite = this.game.add.sprite(this.game.world.width/2, 10, 'world');
+    this.sprite.anchor.x = 0.5;
 		this.final_animation = this.sprite.animations.add('final', [0, this.final_frame], 6, true);   
 
 	},

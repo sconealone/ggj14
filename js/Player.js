@@ -41,9 +41,7 @@ Player.prototype = {
     this.createHud();
 
     this.initializeKeys();
-    var spawnOffsetY = 24;
-    var spawnOffsetX = 32 + 24;
-    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (32 + spawnOffsetY), 'cat');
+    this.sprite = this.game.add.sprite(level.p1Spawn[0], level.p1Spawn[1], 'cat');
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
     this.sprite.owner = this;
@@ -278,7 +276,7 @@ Player.prototype = {
 
     if(level.p1_diamonds < 3 && level.p2_diamonds < 3){
       console.log(5- level.total_diamonds);
-      var point = 5 - level.total_diamonds -1;
+      var point = 5 - level.total_diamonds;
       level.spawnDiamond(level.offsetX[point], level.offsetY[point]);
     }
 
@@ -336,15 +334,7 @@ Player2.prototype = {
 
     this.initializeKeys();
 
-    // var spawnOffsetY = 24;
-    // var spawnOffsetX = this.game.world.width - 24;
-    //this.direction = LEFT;
-    var spriteHeight = 80;
-    // var spawnY = this.game.world.height - (spriteHeight + spawnOffsetY);
-    //this.sprite = this.game.add.sprite(spawnOffsetX, spawnY, 'dog');
-    var spawnOffsetY = 24;
-    var spawnOffsetX = 32 + 24 + 20;
-    this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (32 + spawnOffsetY), 'dog');
+    this.sprite = this.game.add.sprite(level.p2Spawn[0], level.p2Spawn[1], 'dog');
     this.direction = LEFT;
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
@@ -385,7 +375,7 @@ Player2.prototype = {
     level.total_diamonds--;
 
     if(level.p2_diamonds < 3 && level.p1_diamonds < 3){
-      var point = 5 - level.total_diamonds -1;
+      var point = 5 - level.total_diamonds;
       console.log(5- level.total_diamonds);
       level.spawnDiamond(level.offsetX[point], level.offsetY[point]);
     }

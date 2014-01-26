@@ -2,7 +2,7 @@
   Prototype level. There will just be a floor and some walls.
 */
 
-Level = function(gomanager) {
+Level2 = function(gomanager) {
   this.manager = gomanager;
   this.game = gomanager.game;
   this.platforms = null;
@@ -17,10 +17,13 @@ Level = function(gomanager) {
 
   this.offsetX = [300, 1150, 325, 1050, 640];
   this.offsetY = [300, 300, 100, 500, 500];
+
+  this.p1Spawn = [32 + 24, this.game.world.height - (32 + 24)];
+  this.p2Spawn = [32 + 24 + 30, this.game.world.height - (32 + 24)];
 }
 
 // Note: nothing to do with this being the prototype level
-Level.prototype = {
+Level2.prototype = {
   preload: function() {
 
     this.goals = ["meteorite", "petfood", "toaster", "kettle"];

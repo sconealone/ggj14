@@ -14,6 +14,14 @@ Level = function(gomanager) {
   this.p2_diamonds = 0; //number of diamonds player 2 collected
   this.winner = null;
   this.goals = null;
+
+  var spriteHeight = 80;
+  this.p1Spawn = [32 + 24, this.game.world.height - (32 + 24)];
+  this.p2Spawn = [this.game.world.width - 24, this.game.world.height - (spriteHeight + 24)];
+  var x = this.game.world.width/2;
+  var y = this.game.world.height/2;
+  this.offsetX = [x, x, x, x, x];
+  this.offsetY = [y, y, y, y, y];
 }
 
 // Note: nothing to do with this being the prototype level
@@ -62,11 +70,11 @@ Level.prototype = {
     // Diamond Spawn
 
     this.diamonds = this.game.add.group();
-    this.spawnDiamond();
+    this.spawnDiamond(0, 0);
 
   },
 
-  spawnDiamond: function() {
+  spawnDiamond: function(ignoreX, ignoreY) {
     var spawnOffSetX = this.game.world.width/2;
     var spawnOffSetY = this.game.world.height/2;
 
