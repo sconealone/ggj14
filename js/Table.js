@@ -3,7 +3,6 @@ Table = function(gomanager) {
 	this.game = gomanager.game;
   this.attacks = null;
   this.bounce = 0;
-  this.headbounce = 0;
   this.landed = false;
   this.break_counter = 70;
   this.death_flag = false;
@@ -74,13 +73,13 @@ Table.prototype = {
 
     // What should happen when the table hits the player who originally
     // threw it.
-    hitAttacker: function (player, table) {
+    hitAttacker: function (sprite, table) {
         if (table.death_flag) {
           return;
         }
 
         // The player isn't neccessarily an attacker
-        var attacker = player;
+        var attacker = table.attacker;
 
         // Reasons for destroying a table:
 
@@ -94,7 +93,7 @@ Table.prototype = {
         // Crashing into tables from the side doesn't destroy them.
 
         var tableWasHitFromAbove = table.body.touching.up;
-        var tableWasHitFromBelow = player.body.touching.up && headbounce >= 3;
+        var tableWasHitFromBelow = sprite.body.touching.up && table.headbounce >= 3;
 
         if (tableWasHitFromAbove || tableWasHitFromBelow) {
           table.death_flag = true;
@@ -106,7 +105,7 @@ Table.prototype = {
           return;
         } 
 
-        if (player.body.touching.up) {
+        if (sprite.body.touching.up) {
           table.headbounce++;
           return;
         } 

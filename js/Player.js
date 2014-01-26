@@ -45,7 +45,6 @@ Player.prototype = {
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
-    //this.game.physics.collide(this.sprite, tableManager.attacks);
     this.checkKeyboard();
     this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
     if (this.cooldown > 0){
@@ -102,7 +101,8 @@ Player.prototype = {
 
 
     if (this.weakKey.isDown) {
-      if (this.cooldown > 0) {
+      // Actually is it better to play the animation?
+      if (this.cooldown > 0 || this.num_tables= > MAX_TABLES) {
         return;
       }
       this.cooldown = 70;
@@ -124,12 +124,12 @@ Player.prototype = {
 
   // Fire a table. Weak attack.
   shootBullet: function() {
-    var tableSpawnX = this.sprite.x + 10;
-    var tableSpawnY =  this.sprite.y - 10;
-    var _this = this;
     if (this.num_tables >= MAX_TABLES) {
       return;
     }
+    var tableSpawnX = this.sprite.x + 10;
+    var tableSpawnY =  this.sprite.y - 10;
+    var _this = this;
     this.num_tables++;
     tableManager.shootBullet(_this,tableSpawnX, tableSpawnY, this.direction);
   },
