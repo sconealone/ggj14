@@ -13,12 +13,20 @@ Level = function(gomanager) {
   this.p1_diamonds = 0; //number of diamonds player 1 collected
   this.p2_diamonds = 0; //number of diamonds player 2 collected
   this.winner = null;
+  this.goals = null;
 }
 
 // Note: nothing to do with this being the prototype level
 Level.prototype = {
   preload: function() {
+
+    this.goals = ["meteorite", "petfood", "toaster", "kettle"];
+    
     this.game.load.image('sky', 'assets/backgrounds/bg1.png');
+
+    for (var i =0; i < 4; i++) {
+      this.game.load.image(this.goals[i], 'assets/sprites/' + this.goals[i] + '.png');
+    }
 
     this.game.load.image('ground', 'assets/backgrounds/floor1.png');
     this.game.load.image('wall', 'assets/sprites/wall.png');
@@ -61,7 +69,9 @@ Level.prototype = {
     var spawnOffSetX = this.game.world.width/2;
     var spawnOffSetY = this.game.world.height/2;
 
-    var diamond = this.diamonds.create(spawnOffSetX, spawnOffSetY, 'diamond');
+    var item = Math.floor(Math.random() * (3 - 0 + 1)) + 0;
+
+    var diamond = this.diamonds.create(spawnOffSetX, spawnOffSetY, this.goals[item]);
     diamond.body.gravity.y = 6;
   },
 
