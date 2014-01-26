@@ -207,4 +207,5 @@ Player2.prototype.addPhysics = Player.prototype.addPhysics;
 Player2.prototype.checkKeyboard = Player.prototype.checkKeyboard;
 Player2.prototype.tryFaceCorrectDirection = Player.prototype.tryFaceCorrectDirection;
 Player2.prototype.collectDiamond = Player.prototype.collectDiamond;
+Player2.prototype.shootBullet = Player.prototype.shootBullet;
 
