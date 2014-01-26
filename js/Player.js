@@ -36,7 +36,7 @@ Player.prototype = {
     this.sprite.animations.add('left', [1, 2, 3, 4, 5], 10, true);
     this.sprite.animations.add('right', [1, 2, 3, 4, 5], 10, true);
     this.sprite.animations.add('jump', [22], 10, true);
-    this.sprite.animations.add('flip', [7,8,9], 10, false);    
+    this.sprite.animations.add('flip', [7,8,9], 8, false);    
 
     this.initializeKeys();
     this.addPhysics();
@@ -179,7 +179,7 @@ Player2.prototype = {
     this.sprite.animations.add('left', [1, 2, 3, 4, 5, 6, 7], 10, true);
     this.sprite.animations.add('right', [1, 2, 3, 4, 5, 6, 7], 10, true);
     this.sprite.animations.add('jump', [37], 10, true);
-    this.sprite.animations.add('flip', [9,10,11], 6, false);   
+    this.sprite.animations.add('flip', [9,10,11], 8, false);   
 
     this.initializeKeys();
     this.addPhysics();

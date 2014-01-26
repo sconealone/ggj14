@@ -71,7 +71,7 @@ Table.prototype = {
 
         table.body.velocity.y = 0;
         table.body.velocity.x = 0;
-        table.body.gravity.y = 0;
+        //table.body.gravity.y = 0;
 
       }
 
@@ -116,11 +116,11 @@ Table.prototype = {
         table2.body.angularVelocity = 0;
         table2.body.velocity.x = 0;
         table2.body.velocity.y = 0;
-        table2.body.gravity.y = 0;
+        //table2.body.gravity.y = 0;
 
         table1.body.velocity.x = 0;
         table1.body.velocity.y = 0;
-        table1.body.gravity.y = 0.0;
+        //table1.body.gravity.y = 0.0;
     },
 
     update: function () {

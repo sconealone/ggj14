@@ -13,7 +13,8 @@ Level = function(gomanager) {
 // Note: nothing to do with this being the prototype level
 Level.prototype = {
   preload: function() {
-    this.game.load.image('sky', 'assets/bg/sky.png');
+    this.game.load.image('sky', 'assets/backgrounds/bg1.png');
+
     this.game.load.image('ground', 'assets/sprites/floor.png');
     this.game.load.image('wall', 'assets/sprites/wall.png');
 
@@ -23,7 +24,9 @@ Level.prototype = {
 
   create: function() {
     // Skybox
-    this.game.add.sprite(0, 0, 'sky');
+    var background = this.game.add.sprite(0, 0, 'sky');
+    background.scale.setTo(0.8,0.8);
+
 
     // Platforms
     // All things that the players can collide with are considered platforms
