@@ -37,5 +37,4 @@ GameObjectManager.prototype = {
     	tableManager.update(); 
       level.update();
     }
-
 }
