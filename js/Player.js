@@ -103,7 +103,7 @@ Player.prototype = {
     this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.S);
     // Attack
     // Keys subject to change!
-    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.E);
+    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.T);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.R);
 
     // Getting Knocked Back
@@ -310,14 +310,14 @@ Player2.prototype = {
 // Private
 
   initializeKeys: function() {
-    this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.J);
-    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.L);
-    this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.I);
-    this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.K);
+    this.leftKey = this.game.input.keyboard.addKey(Phaser.Keyboard.LEFT);
+    this.rightKey = this.game.input.keyboard.addKey(Phaser.Keyboard.RIGHT);
+    this.upKey = this.game.input.keyboard.addKey(Phaser.Keyboard.UP);
+    this.downKey = this.game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
 
     // Attack
     // Keys subject to change!
-    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.U);
+    this.weakKey = this.game.input.keyboard.addKey(Phaser.Keyboard.QUESTION_MARK);
     this.strongKey = this.game.input.keyboard.addKey(Phaser.Keyboard.P);
     this.knockBackKey = this.game.input.keyboard.addKey(Phaser.Keyboard.Z);
   },
