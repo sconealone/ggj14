@@ -17,6 +17,8 @@ Player = function(gomanager) {
   this.cooldown = 0;
   this.isAirborne = false;
   this.knock_back_is_playing = false;
+  this.wasChannelSuccessful = false;
+  this.isChanneling = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -45,7 +47,7 @@ Player.prototype = {
     this.sprite.animations.add('jump', [22], 10, true);
     this.sprite.animations.add('flip', [7,8,9], 8, false);    
     this.sprite.animations.add('crouch', [15], 8, false);    
-    this.sprite.animations.add('channel', [41], 8, true);    
+    this.sprite.animations.add('channel', [29], 8, true);    
     this.sprite.animations.add('knockback', [36], 10, true);  
 
     this.addPhysics();
@@ -56,7 +58,7 @@ Player.prototype = {
       this.sprite.y = level.floor.y - this.sprite.height/2;
     }
     this.game.physics.collide(this.sprite, level.platforms);
-    this.game.physics.overlap(this.sprite, level.diamonds, this.collectDiamond, null, this);
+    this.game.physics.overlap(this.sprite, level.diamonds, this.tryCollectDiamond, null, this);
     if (this.cooldown > 0){
       this.cooldown--;
     }
@@ -70,6 +72,8 @@ Player.prototype = {
   hitPlayer: function(sprite, table) {
     var attacker = table.attacker;
     if (sprite != attacker.sprite && table.isWeaponized) {
+      this.wasChannelSuccessful = false;
+      this.isChanneling = false;
       tableManager.hitDefender(sprite, table);
     } else {
       tableManager.hitAttacker(sprite, table);
@@ -105,7 +109,7 @@ Player.prototype = {
     this.sprite.anchor.x = 0.5;
 
     // Check movement
-    if (this.done_flip && !this.knock_back_is_playing){
+    if (this.done_flip && !this.knock_back_is_playing && !this.isChanneling) {
       if (this.leftKey.isDown) {
         this.sprite.body.velocity.x = -runSpeed;
         this.tryFaceCorrectDirection(LEFT);
@@ -130,6 +134,10 @@ Player.prototype = {
         this.sprite.frame = 0;
       }
     }
+    else if (this.isChanneling) {
+      this.sprite.animations.play('channel');
+      return;
+    }
 
 
     if (this.weakKey.isDown && !this.knock_back_is_playing) {
@@ -137,7 +145,7 @@ Player.prototype = {
       if (this.cooldown > 0 || this.num_tables >= MAX_TABLES) {
         return;
       }
-      this.cooldown = 60;
+      this.cooldown = 45;
       this.done_flip = false;
       var _this = this;
       setTimeout(function(){_this.shootBullet();}, 200);
@@ -214,11 +222,30 @@ Player.prototype = {
       level.spawnDiamond();
     }
 
-  }  
+  },
+  tryCollectDiamond: function(player, diamond) {
+    // Channel
+    if (this.isChanneling) {
+      return;
+    }
+    this.wasChannelSuccessful = true;
+    this.isChanneling = true;
+    var _this = this;
+    setTimeout(
+      function(){
+        if (_this.wasChannelSuccessful) {
+          _this.collectDiamond(player, diamond);
+        }
+        _this.isChanneling = false;
+      },
+      2600
+    );
+  }
 }
 
 
-// What do to here?????
+
+
 Player2 = function(gomanager) {
   this.manager = gomanager;
   this.game = gomanager.game;
@@ -229,6 +256,8 @@ Player2 = function(gomanager) {
   this.cooldown = 0;
   this.isAirborne = false;
   this.knock_back_is_playing = false;
+  this.wasChannelSuccessful = false;
+  this.isChanneling = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
