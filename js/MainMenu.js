@@ -4,8 +4,8 @@ MainMenu = function(game) {
 
 MainMenu.prototype = {
     create: function () {
-    	splash_screen = this.game.add.sprite(0, 0, 'splash');
-    	splash_screen.scale.setTo(0.72, 0.75);
+    	this.splash_screen = this.game.add.sprite(0, 0, 'splash');
+    	this.splash_screen.scale.setTo(0.72, 0.75);
 
         button = this.game.add.button(this.game.world.centerX, 400, 'start', this.startGame, this, 2, 1, 0);
        	button.scale.setTo(0.7, 0.7);
@@ -16,3 +16,50 @@ MainMenu.prototype = {
         this.game.state.start('game');
     }	
 }
+
+CatWin = function(game) {
+	this.game = game;
+}
+
+CatWin.prototype = {
+	preload: function() {
+		this.game.load.image('catwin', "assets/backgrounds/catwin.png");
+		this.game.load.image('fliplevel', "assets/backgrounds/fliptonext.png");
+	},
+    create: function () {
+    	this.splash_screen = this.game.add.sprite(0, 0, 'catwin');
+    	this.splash_screen.scale.setTo(0.72, 0.75);
+
+        button = this.game.add.button(this.game.world.centerX + 400, 400, 'fliplevel', this.startGame, this, 2, 1, 0);
+       	button.scale.setTo(0.7, 0.7);
+        button.anchor.setTo(0.5, 0.5);
+    },
+
+    startGame: function () {
+        this.game.state.start('game');
+    }	
+}
+
+DogWin = function(game) {
+	this.game = game;
+}
+
+DogWin.prototype = {
+	preload: function() {
+		this.game.load.image('dogwin', "assets/backgrounds/dogwin.png");
+		this.game.load.image('fliplevel', "assets/backgrounds/fliptonext.png");
+	},
+    create: function () {
+    	this.splash_screen = this.game.add.sprite(0, 0, 'dogwin');
+    	this.splash_screen.scale.setTo(0.72, 0.75);
+
+        button = this.game.add.button(this.game.world.centerX - 400, 400, 'fliplevel', this.startGame, this, 2, 1, 0);
+       	button.scale.setTo(0.7, 0.7);
+        button.anchor.setTo(0.5, 0.5);
+    },
+
+    startGame: function () {
+        this.game.state.start('game');
+    }	
+}
+

@@ -78,22 +78,18 @@ Level.prototype = {
   },
 
   update: function() {
-    if (this.p1_diamonds >= 3) {
-      //console.log('player1 wins');
-      setTimeout(function() {
 
-        level.game.state.start('mainmenu');
-      }, 2000);
+
+    if (this.p1_diamonds >= 3) {
+      globe.sprite.body.gravity.y = 6;
+      this.manager.player2.loss = true;
 
 
     }
     else if (this.p2_diamonds >= 3){
-      //console.log('player2 wins');
-      setTimeout(function() {
 
-        level.game.state.start('mainmenu');
-      }, 2000);
-
+      globe.sprite.body.gravity.y = 6;
+      this.manager.player1.loss = true;
     }
 
     this.game.physics.collide(this.diamonds, this.platforms);

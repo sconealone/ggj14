@@ -19,6 +19,8 @@ Player = function(gomanager) {
   this.knock_back_is_playing = false;
   this.wasChannelSuccessful = false;
   this.isChanneling = false;
+  this.loss = false;
+  this.loss_frame = 15;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -65,8 +67,13 @@ Player.prototype = {
     var _this = this;
     this.game.physics.collide(tableManager.attacks, this.sprite, this.hitPlayer, null, _this);
     this.isAirborne = !this.sprite.body.touching.down || this.isAirborne;
-    this.checkKeyboard();
-    this.isAirborne = false;
+    if (!this.loss){
+      this.checkKeyboard();
+      this.isAirborne = false;
+    } else {
+      this.sprite.animations.stop();
+      this.sprite.frame = this.loss_frame; // 46 
+    }
   },
 
   hitPlayer: function(sprite, table) {
@@ -255,6 +262,8 @@ Player2 = function(gomanager) {
   this.done_flip = true;
   this.cooldown = 0;
   this.isAirborne = false;
+  this.loss = false;
+  this.loss_frame = 46;
   this.knock_back_is_playing = false;
   this.wasChannelSuccessful = false;
   this.isChanneling = false;
