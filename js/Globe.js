@@ -60,6 +60,8 @@ Globe.prototype = {
 	  this.sprite.animations.play('final');
 
     player.owner.knock_back_is_playing = true;
+    player1.sprite.body.velocity.setTo(0,0);
+    player2.sprite.body.velocity.setTo(0,0);
     var _this = this;
     setTimeout(function(){_this.sprite.kill();}, 300)
     setTimeout(function() {

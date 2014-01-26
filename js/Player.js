@@ -24,6 +24,10 @@ Player = function(gomanager) {
   this.knock_back_is_playing = false;
   this.isImmune = false;
 
+  this.counter1 = null;
+  this.counter2 = null;
+  this.counter3 = null;
+
   //count # of collected diamonds
   this.num_diamonds = 0;
 };
@@ -37,6 +41,7 @@ Player.prototype = {
     this.game.load.image('hud_icon', "assets/sprites/table.png");
     this.game.load.image('dogicon', "assets/sprites/dogicon.png");
     this.game.load.image("caticon", "assets/sprites/caticon.png");
+    this.game.load.spritesheet('diamondCounter', 'assets/sprites/hudsheet.png', 32, 32);
   },
 
   create: function() {
@@ -80,10 +85,15 @@ Player.prototype = {
     this.icon = this.game.add.sprite(100, 20, "caticon");
 
 
-    this.hud = this.game.add.sprite(100, 60, 'hud_icon');
+    this.hud = this.game.add.sprite(100, 70, 'hud_icon');
     this.hud.scale.setTo(0.5,0.5);
     this.num_table_display = this.game.add.text(100 + 60, 60, 'x 10', { fontSize: '14px', fill: '#000' });
-    this.win_count = this.game.add.text(100, 100, "Win: 0/5", {fontSize: '14px', fill: '#000'});
+    this.counter1 = this.game.add.sprite(150 + 60 + 60 + 00, 75, 'diamondCounter');
+    this.counter2 = this.game.add.sprite(150 + 60 + 60 + 40, 75, 'diamondCounter');
+    this.counter3 = this.game.add.sprite(150 + 60 + 60 + 80, 75, 'diamondCounter');
+    this.counter1.anchor.setTo(0.5, 0.5);
+    this.counter2.anchor.setTo(0.5, 0.5);
+    this.counter3.anchor.setTo(0.5, 0.5);
   },
 
   update: function() {
@@ -117,7 +127,6 @@ Player.prototype = {
     }
     //this.createHud(this.num_tables);
     this.num_table_display.content = "x " + (MAX_TABLES - this.num_tables);
-    this.win_count.content = "Win: " + this.num_diamonds + "/5";
   },
 
   hitPlayer: function(sprite, table) {
@@ -277,10 +286,33 @@ Player.prototype = {
     this.num_diamonds++;
     level.total_diamonds--;
 
+    switch (this.num_diamonds){
+      case 0:
+        this.counter1.frame = 0;
+        this.counter2.frame = 0;
+        this.counter3.frame = 0;
+        break;
+      case 1:
+        this.counter1.frame = 1;
+        this.counter2.frame = 0;
+        this.counter3.frame = 0;
+        break;
+      case 2:
+        this.counter1.frame = 1;
+        this.counter2.frame = 1;
+        this.counter3.frame = 0;
+        break;
+      case 3:
+        this.counter1.frame = 1;
+        this.counter2.frame = 1;
+        this.counter3.frame = 1;
+        break;
+      default:
+    };
+
     setTimeout(
       function() {
         if(level.p1_diamonds < 3 && level.p2_diamonds < 3){
-          console.log(5- level.total_diamonds);
           var point = 5 - level.total_diamonds;
           level.spawnDiamond(level.offsetX[point], level.offsetY[point]);
         }
@@ -330,6 +362,10 @@ Player2 = function(gomanager) {
   this.wasChannelSuccessful = false;
   this.isChanneling = false;
   this.isImmune = false;
+  this.counter1 = null;
+  this.counter2 = null;
+  this.counter3 = null;
+
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -381,13 +417,35 @@ Player2.prototype = {
 
     level.p2_diamonds++;
     this.num_diamonds++;
+    switch (this.num_diamonds){
+      case 0:
+        this.counter1.frame = 0;
+        this.counter2.frame = 0;
+        this.counter3.frame = 0;
+        break;
+      case 1:
+        this.counter1.frame = 0;
+        this.counter2.frame = 0;
+        this.counter3.frame = 1;
+        break;
+      case 2:
+        this.counter1.frame = 0;
+        this.counter2.frame = 1;
+        this.counter3.frame = 1;
+        break;
+      case 3:
+        this.counter1.frame = 1;
+        this.counter2.frame = 1;
+        this.counter3.frame = 1;
+        break;
+      default:
+    };
 
     diamond.kill();
     level.total_diamonds--;
 
     if(level.p2_diamonds < 3 && level.p1_diamonds < 3){
       var point = 5 - level.total_diamonds;
-      console.log(5- level.total_diamonds);
       level.spawnDiamond(level.offsetX[point], level.offsetY[point]);
     }
 
@@ -395,11 +453,15 @@ Player2.prototype = {
 
   createHud: function(num_tables){
     this.icon = this.game.add.sprite(this.game.world.width - 200, 20, "dogicon");
-    this.hud = this.game.add.sprite(this.game.world.width - 200, 60, 'hud_icon');
+    this.hud = this.game.add.sprite(this.game.world.width - 200, 70, 'hud_icon');
     this.hud.scale.setTo(0.5,0.5);
     this.num_table_display = this.game.add.text(this.game.world.width - 200 + 60, 60, 'x 10', { fontSize: '14px', fill: '#000' });
-    this.win_count = this.game.add.text(this.game.world.width-200, 100, "Win: 0/5", {fontSize: '14px', fill: '#000'});
-    //this.win_count = this.game.add.text(this.game.world.width-200, 80, "Win: 0", {fontSize: '14px', fill: '#000'});  
+    this.counter1 = this.game.add.sprite(this.game.world.width/2 + 310 + 6 + 00, 75, 'diamondCounter');
+    this.counter2 = this.game.add.sprite(this.game.world.width/2 + 310 + 6 + 40, 75, 'diamondCounter');
+    this.counter3 = this.game.add.sprite(this.game.world.width/2 + 310 + 6 + 80, 75, 'diamondCounter');
+    this.counter1.anchor.setTo(0.5, 0.5);
+    this.counter2.anchor.setTo(0.5, 0.5);
+    this.counter3.anchor.setTo(0.5, 0.5);
   },    
 };
 
