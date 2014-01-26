@@ -2,8 +2,9 @@
   Prototype level. There will just be a floor and some walls.
 */
 
-Level = function(game) {
-  this.game = game;
+Level = function(gomanager) {
+  this.manager = gomanager;
+  this.game = gomanager.game;
   this.platforms = null;
 }
 
@@ -40,12 +41,5 @@ Level.prototype = {
   },
 
   update: function() {
-
-
-  },
-
-  render: function () {
-    this.game.debug.renderSpriteBody(this.floor);
-
   }
 };
