@@ -35,6 +35,7 @@ Player.prototype = {
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
+    this.game.physics.collide(this.sprite, tableManager.attacks);
     this.checkKeyboard();
   },
 
