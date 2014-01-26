@@ -65,12 +65,12 @@ Level.prototype = {
     l2.scale.setTo(1,9.38);
     l2.body.immovable = true;
 
-    var l3 = this.platforms.create(400+400, this.game.world.height- 360, 'ground');
+    var l3 = this.platforms.create(400+400, this.game.world.height- 350, 'ground');
     l3.scale.setTo(1, 10.94);
     l3.body.immovable = true;
 
     var l4 = this.platforms.create(750,  300, 'ground');
-    l4.scale.setTo(3.0, 1);
+    l4.scale.setTo(6.0, 1);
     l4.body.immovable = true;
 
     var l5 = this.platforms.create(900, this.game.world.height - 200, 'ground');
@@ -89,7 +89,9 @@ Level.prototype = {
     l8.scale.setTo(4, 1);
     l8.body.immovable = true;    
 
-
+    var l9 = this.platforms.create(350, 400, 'ground');
+    l9.scale.setTo(2, 1);
+    l9.body.immovable = true; 
 
     // Diamond Spawn
 
