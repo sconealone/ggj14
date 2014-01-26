@@ -18,7 +18,7 @@ Player = function(gomanager) {
   this.isAirborne = false;
   this.loss = false;
   this.loss_frame = 15;
-  this.knock_back_is_playing = false;]
+  this.knock_back_is_playing = false;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
