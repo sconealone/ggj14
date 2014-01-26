@@ -14,6 +14,8 @@ Player = function(gomanager) {
   this.num_tables = 10;
   this.done_flip = true;
 
+  //count # of overlaps
+  this.count = 0;
 };
 
 Player.prototype = {
@@ -40,11 +42,14 @@ Player.prototype = {
 
     this.initializeKeys();
     this.addPhysics();
+
+    console.log(level.diamond);
   },
 
   update: function() {
     this.game.physics.collide(this.sprite, level.platforms);
     this.checkKeyboard();
+    this.game.physics.overlap(this.sprite, level.diamond, this.collectDiamond, null, this);
   },
 
   /////////////////
@@ -135,7 +140,13 @@ Player.prototype = {
     }
     this.direction = tryTurnDirection;
     this.sprite.scale.x *= -1;
-  }
+  },
+  collectDiamond: function(player, diamond) {
+    console.log(this.count);
+    this.count++;
+    console.log(this.count);
+    diamond.kill();
+}
 }
 
 
@@ -145,6 +156,9 @@ Player2 = function(game) {
   this.sprite = null;
   this.direction = RIGHT;
   this.cursors = null;
+
+  //count # of overlaps
+  this.count = 0;
 }
 
 // Public
@@ -186,3 +200,5 @@ Player2.prototype.update = Player.prototype.update;
 Player2.prototype.addPhysics = Player.prototype.addPhysics;
 Player2.prototype.checkKeyboard = Player.prototype.checkKeyboard;
 Player2.prototype.tryFaceCorrectDirection = Player.prototype.tryFaceCorrectDirection;
+Player2.prototype.collectDiamond = Player.prototype.collectDiamond;
+

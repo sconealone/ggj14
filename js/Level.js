@@ -6,6 +6,8 @@ Level = function(gomanager) {
   this.manager = gomanager;
   this.game = gomanager.game;
   this.platforms = null;
+
+  this.diamond = 'hey';
 }
 
 // Note: nothing to do with this being the prototype level
@@ -14,6 +16,9 @@ Level.prototype = {
     this.game.load.image('sky', 'assets/placeholder/sky.png');
     this.game.load.image('ground', 'assets/placeholder/floor.png');
     this.game.load.image('wall', 'assets/placeholder/wall.png');
+
+    //object of interest
+    this.game.load.spritesheet('diamond', 'assets/diamond.png', 0, 0);
   },
 
   create: function() {
@@ -38,6 +43,11 @@ Level.prototype = {
     var rightWall = this.platforms.create(this.game.world.width - floorHeight, -floorHeight, 'wall');
     leftWall.body.immovable = true;
     rightWall.body.immovable = true;
+
+    // Diamond Spawn
+    var spawnOffSetX = this.game.world.width/2;
+    var spawnOffSetY = this.game.world.height - 2*floorHeight;
+    this.diamond = this.game.add.sprite(spawnOffSetX, spawnOffSetY, 'diamond');
   },
 
   update: function() {
