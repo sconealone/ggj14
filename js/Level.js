@@ -51,8 +51,8 @@ Level.prototype = {
     this.diamond = this.game.add.sprite(spawnOffSetX, spawnOffSetY, 'diamond');
     this.diamond.anchor.setTo(1, 1);
 
-    this.diamond.body.gravity.y = 6;
-    this.diamond.body.bounce.y = 0.5 + Math.random() * 0.2;
+    this.diamond.body.gravity.y = 8;
+    this.diamond.body.bounce.y = 0.4 + Math.random() * 0.2;
   },
 
   update: function() {
