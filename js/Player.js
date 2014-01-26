@@ -38,6 +38,7 @@ Player.prototype = {
     this.sprite = this.game.add.sprite(spawnOffsetX, this.game.world.height - (64 + spawnOffsetY), 'cat');
     this.sprite.anchor.x = 0.5;
     this.sprite.anchor.y = 0.5;
+    this.sprite.owner = this;
 
     this.sprite.animations.add('left', [1, 2, 3, 4], 12, true);
     this.sprite.animations.add('right', [1, 2, 3, 4], 12, true);
@@ -152,8 +153,7 @@ Player.prototype = {
     // Knocked Back
     if (this.knockBackKey.isDown){
       this.knock_back = false;
-      knockBack(this.sprite, this.sprite.body.velocity.x, this.sprite.body.touching);
-      console.log('X key pressed');
+      this.knockBack(this.sprite, this.sprite.body.velocity.x, this.sprite.body.touching);
       this.sprite.animations.play('knockback');
       this.sprite.events.onAnimationComplete.add(function(){
             this.knock_back = true;
@@ -231,7 +231,6 @@ Player.prototype = {
   collectDiamond: function(player, diamond) {
 
     level.p1_diamonds++;
-    console.log(level.p1_diamonds);
 
     diamond.kill();
     level.total_diamonds--;
@@ -254,6 +253,7 @@ Player2 = function(gomanager) {
   this.done_flip = true;
   this.cooldown = 0;
   this.isAirborne = false;
+  this.knock_back = true;
 
   //count # of collected diamonds
   this.num_diamonds = 0;
@@ -274,6 +274,7 @@ Player2.prototype = {
     var spriteHeight = 80;
     var spawnY = this.game.world.height - (spriteHeight + spawnOffsetY);
     this.sprite = this.game.add.sprite(spawnOffsetX, spawnY, 'dog');
+    this.sprite.owner = this;
     this.sprite.scale.x = -1;
 
     this.sprite.animations.add('left',  [1, 2, 3, 4, 4, 5, 6], 17, true);
@@ -282,6 +283,7 @@ Player2.prototype = {
     this.sprite.animations.add('flip', [9,10,11], 8, false);   
     this.sprite.animations.add('crouch', [19], 10, true);
     this.sprite.animations.add('channel', [37], 10, true);
+    this.sprite.animations.add('knockback', [46], 10, true);
 
     this.addPhysics();
   },
@@ -303,7 +305,6 @@ Player2.prototype = {
   collectDiamond: function(player, diamond) {
 
     level.p2_diamonds++;
-    console.log(level.p2_diamonds);
 
     diamond.kill();
     level.total_diamonds--;
@@ -312,7 +313,6 @@ Player2.prototype = {
       level.spawnDiamond();
     }
 
-    console.log("level's total diamonds left: " + level.total_diamonds);
   }  
 };
 
