@@ -35,6 +35,8 @@ Player.prototype = {
   preload: function() {
     this.game.load.spritesheet('cat', 'assets/sprites/catsheet.png', 64, 64);
     this.game.load.image('hud_icon', "assets/sprites/table.png");
+    this.game.load.image('dogicon', "assets/sprites/dogicon.png");
+    this.game.load.image("caticon", "assets/sprites/caticon.png");
   },
 
   create: function() {
@@ -75,6 +77,8 @@ Player.prototype = {
     setTimeout(function(){stompee.owner.makeImmuneToKnockback();stompee.owner.knock_back_is_playing=false;stompee.animations.stop;stompee.frame=0;}, 500);
   },
   createHud: function(num_tables){
+    this.icon = this.game.add.sprite(100, 20, "caticon");
+
 
     this.hud = this.game.add.sprite(100, 60, 'hud_icon');
     this.hud.scale.setTo(0.5,0.5);
@@ -390,7 +394,7 @@ Player2.prototype = {
   },
 
   createHud: function(num_tables){
-
+    this.icon = this.game.add.sprite(this.game.world.width - 200, 20, "dogicon");
     this.hud = this.game.add.sprite(this.game.world.width - 200, 60, 'hud_icon');
     this.hud.scale.setTo(0.5,0.5);
     this.num_table_display = this.game.add.text(this.game.world.width - 200 + 60, 60, 'x 10', { fontSize: '14px', fill: '#000' });
