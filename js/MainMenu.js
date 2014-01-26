@@ -19,7 +19,9 @@ MainMenu.prototype = {
         l3.scale.setTo(0.4, 0.5);
         l3.anchor.setTo(0.5, 0.5);    
 
-        //instruction = this.game.add.button(600, 'instruction', this.startInstruction, this, 2, 1, 0);       
+        instruction = this.game.add.button(600, 600, 'instruction_btn', this.startInstruction, this, 2, 1, 0);  
+        instruction.anchor.setTo(0.5, 0.5);
+        instruction.scale.setTo(0.4,0.5);     
     },
 
     startL1: function () {
@@ -30,10 +32,11 @@ MainMenu.prototype = {
     },
     startL3: function () {
         this.game.state.start('level3');
+    },
+
+    startInstruction: function() {
+        this.game.state.start('instruction');
     }
-    // startInstruction: function() {
-    //     this.game.state.start('instruction');
-    // }
 
 
 }
@@ -108,6 +111,27 @@ DogWin.prototype = {
     }
 }
 
- 
+Instruction = function(game){
+    this.game = game;
+}
+
+Instruction.prototype = {
+    preload: function(){
+        this.game.load.image('instruction_page', "assets/backgrounds/instructionspage.png");
+        //this.game.load.image('start', "assets/sprites/starbutton.png");
+    },
+    create: function() {
+        var page = this.game.add.sprite(0,0,'instruction_page');
+        page.scale.setTo(0.68, 0.75);
+       
+        button = this.game.add.button(1100, 750, 'start', this.back, this, 2, 1, 0);
+        button.anchor.setTo(0.5,0.5);
+        button.scale.setTo(0.4,0.5);
+    },
+    back: function(){
+        this.game.state.start("mainmenu");
+    }
+
+}
 
 
