@@ -24,7 +24,7 @@ Level.prototype = {
     this.game.load.image('wall', 'assets/sprites/wall.png');
 
     //object of interest
-    this.game.load.spritesheet('diamond', 'assets/icons/diamond.png', 0, 0);
+    this.game.load.spritesheet('diamond', 'assets/sprites/meteorite.png', 0, 0);
   },
 
   create: function() {
@@ -67,13 +67,20 @@ Level.prototype = {
 
   update: function() {
     if (this.p1_diamonds >= 3) {
-      console.log('player1 wins');
-      this.game.state.start('mainmenu');
+      //console.log('player1 wins');
+      setTimeout(function() {
+
+        level.game.state.start('mainmenu');
+      }, 2000);
+
 
     }
     else if (this.p2_diamonds >= 3){
-      console.log('player2 wins');
-      this.game.state.start('mainmenu');
+      //console.log('player2 wins');
+      setTimeout(function() {
+
+        level.game.state.start('mainmenu');
+      }, 2000);
 
     }
 
