@@ -92,8 +92,8 @@ Level2.prototype = {
     l8.scale.setTo(4, 1);
     l8.body.immovable = true;    
 
-    var l9 = this.platforms.create(350, 400, 'ground');
-    l9.scale.setTo(2, 1);
+    var l9 = this.platforms.create(150, 400, 'ground');
+    l9.scale.setTo(3, 1);
     l9.body.immovable = true; 
 
     // Diamond Spawn
@@ -102,7 +102,7 @@ Level2.prototype = {
 
     this.spawnDiamond(this.offsetX[0], this.offsetY[0]);
 
-    this.total_diamonds--;
+    //this.total_diamonds--;
 
   },
 
