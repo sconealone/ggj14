@@ -8,6 +8,8 @@ Globe.prototype = {
 
 	preload: function(){
 		//this.game.load.image('neutral', 'assets/sprites/world.png');
+    this.game.load.audio('win', 'assets/sounds/Win.wav');
+    this.game.load.audio('worldFall', 'assets/sounds/World_Falling.wav');
 
 
 	},
@@ -58,10 +60,13 @@ Globe.prototype = {
 
 		//this.fadeOut();
 	  this.sprite.animations.play('final');
+    var s = this.game.add.audio('win', 1, true);
+    s.play('', 0, 1, false);
 
     player.owner.knock_back_is_playing = true;
     player1.sprite.body.velocity.setTo(0,0);
     player2.sprite.body.velocity.setTo(0,0);
+
     var _this = this;
     setTimeout(function(){_this.sprite.kill();}, 300)
     setTimeout(function() {
@@ -126,6 +131,8 @@ Globe.prototype = {
 	    if (p1 >= winBreakPoint || p2 >= winBreakPoint){
 
 	      globe.sprite.body.gravity.y = 6;
+        var s = this.game.add.audio('worldFall', 1, true);
+        s.play('', 0, 1, false);
 	      this.game.physics.collide(this.sprite, level.platforms);
 	      
 	      if (p1 >= 3){
