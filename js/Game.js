@@ -106,7 +106,7 @@ Game2ObjectManager.prototype = {
       tableManager.create();
       hud.create();
 
-      var bgm = this.add.audio('nightcity', 1, true);
+      var bgm = this.add.audio('nightcity', 5, true);
       bgm.play('', 0,1,true);
     },
 
@@ -145,6 +145,7 @@ Game3ObjectManager.prototype = {
     this.load.image('fliplevel', "assets/backgrounds/fliptonext.png");
     this.load.image('catwin', "assets/backgrounds/catwin.png");
     this.load.spritesheet('table', 'assets/sprites/tablesheet.png', 80, 32);
+
     _this = this;
     level = new Level1(_this);
     player1 = new Player(_this);
@@ -168,6 +169,9 @@ Game3ObjectManager.prototype = {
       player2.create();
       tableManager.create();
       hud.create();
+
+      // var bgm = this.add.audio('nightcity', 5, true);
+      // bgm.play('', 0,1,true);
     },
 
     update: function () {

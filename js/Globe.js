@@ -52,10 +52,11 @@ Globe.prototype = {
         s.to({ alpha: 0 }, 600, null)
         s.start();
     },
-	changeState: function(world, player) {
+	changeState: function(globe, platforms) {
     if (this.changed_state) {
       return;
     }
+
     this.changed_state = true;
 
 		//this.fadeOut();
@@ -63,14 +64,16 @@ Globe.prototype = {
     var s = this.game.add.audio('win', 1, true);
     s.play('', 0, 1, false);
 
-    player.owner.knock_back_is_playing = true;
     player1.sprite.body.velocity.setTo(0,0);
     player2.sprite.body.velocity.setTo(0,0);
 
     var _this = this;
     setTimeout(function(){_this.sprite.kill();}, 300)
+
     setTimeout(function() {
       if (level.p1_diamonds > level.p2_diamonds){
+
+
         level.game.state.start('catwin');
       } else {
         	level.game.state.start('dogwin');
@@ -133,17 +136,8 @@ Globe.prototype = {
 	      globe.sprite.body.gravity.y = 6;
         var s = this.game.add.audio('worldFall', 1, true);
         s.play('', 0, 1, false);
-	      this.game.physics.collide(this.sprite, level.platforms);
+	      this.game.physics.collide(this.sprite, level.platforms, this.changeState, null, this);
 	      
-	      if (p1 >= 3){
-	      	//overlap the world with p1
-	      	this.game.physics.overlap(this.sprite, player1.sprite, this.changeState, null, this);
-	      	
-	      	//console.log('overlapped');
-	      }
-	      if (p2 >= 3){
-	      	this.game.physics.overlap(this.sprite, player2.sprite, this.changeState, null, this);
-	      }
 
 	    }
 

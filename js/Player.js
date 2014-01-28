@@ -28,6 +28,7 @@ Player = function(gomanager) {
   this.knock_back_is_playing = false;
   this.isImmune = false;
   this.name='p1';
+  this.channelingSound = false;
 
   this.counter1 = null;
   this.counter2 = null;
@@ -58,6 +59,9 @@ Player.prototype = {
 
     this.game.load.audio('cathit1', ["assets/sounds/Cat_Hit1.wav"]);
     this.game.load.audio('cathit2', ["assets/sounds/Cat_Hit2.wav"]);
+
+
+    this.game.load.audio('channeling1', ['assets/sounds/Channeling_sound_1.wav']);
 
     this.game.load.spritesheet('diamondCounter', 'assets/sprites/hudsheet.png', 32, 32);
   },
@@ -223,6 +227,21 @@ Player.prototype = {
     }
     else if (this.isChanneling) {
       this.sprite.animations.play('channel');
+      //channeling sound here 
+
+      if (!this.channelingSound){
+        if (this.name = 'p1'){
+          var sound = this.game.add.audio('channeling1', 1, false);
+          sound.play('', 0, 1, false);
+          this.channelingSound = true;
+        } 
+        else {
+          var sound = this.game.add.audio('channeling2', 1, false);
+          sound.play('', 0, 1, false);
+          this.channelingSound = true;
+        }
+      }
+
       return;
     }
 
@@ -388,6 +407,7 @@ Player.prototype = {
           level.spawnDiamond(level.offsetX[point], level.offsetY[point]);
         }
         _this.isChanneling = false;
+        _this.channelingSound = false;
       },
       2600
     );
@@ -442,6 +462,8 @@ Player2.prototype = {
     this.game.load.audio('doghit1', ["assets/sounds/Dog_Hit1.wav"]);
     this.game.load.audio('doghit2', ["assets/sounds/Dog_Hit2.wav"]);
     this.game.load.audio('doghit3', ["assets/sounds/Dog_Hit2.wav"]);
+
+    this.game.load.audio('channeling2', ['assets/sounds/Channeling_sound_2.wav']);
 
   },
   create: function() {

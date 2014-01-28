@@ -1,3 +1,9 @@
+function playSound(scene){
+    this.game = scene.game;
+    var click = this.game.add.audio('click', 10, true);
+    click.play('', 0, 1, false);
+}
+
 MainMenu = function(game) {
 	this.game = game;
 }
@@ -23,21 +29,26 @@ MainMenu.prototype = {
         instruction.anchor.setTo(0.5, 0.5);
         instruction.scale.setTo(0.4,0.5);  
 
-           
+
     },
 
     startL1: function () {
+        playSound(this);
         this.game.state.start('level1');
     },
     startL2: function (){
+        playSound(this);
         this.game.state.start('level2');
     },
     startL3: function () {
+        playSound(this);
         this.game.state.start('level3');
     },
 
     startInstruction: function() {
+        playSound(this);
         this.game.state.start('instruction');
+
     }
 
 
@@ -68,12 +79,15 @@ CatWin.prototype = {
     },
 
     startL1: function () {
+        playSound(this);
         this.game.state.start('level1');
     },
     startL2: function (){
+        playSound(this);
         this.game.state.start('level2');
     },
     startL3: function () {
+        playSound(this);
         this.game.state.start('level3');
     }	
 }
@@ -103,12 +117,15 @@ DogWin.prototype = {
     },
 
     startL1: function () {
+        playSound(this);
         this.game.state.start('level1');
     },
     startL2: function (){
+        playSound(this);
         this.game.state.start('level2');
     },
     startL3: function () {
+        playSound(this);
         this.game.state.start('level3');
     }
 }
@@ -131,6 +148,7 @@ Instruction.prototype = {
         button.scale.setTo(0.4,0.5);
     },
     back: function(){
+        playSound(this);
         this.game.state.start("mainmenu");
     }
 

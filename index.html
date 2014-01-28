@@ -3,7 +3,8 @@
 <head> 
 	<meta charset="UTF-8" />
 	<title>Global Game Jam 2014</title>
-	<script type="text/javascript" src="js/phaser.js"></script>
+	<script type="text/javascript" src="js/phaser.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.11.0.min.js"></script>
 
     <script type="text/javascript" src="js/Preloader.js"></script>
     <script type="text/javascript" src="js/MainMenu.js"></script>
@@ -19,8 +20,11 @@
 
     <style type="text/css">
         body {
-            margin: 0;
+            margin-left: auto;
+            margin-right: auto;
+            width: 70%;
         }
+
     </style>
 
 </head>
@@ -33,8 +37,8 @@
 
 
     //  No parameters given, which means no default state is created or started
+    //var game = new Phaser.Game($(window).width() * 0.7, $(window).width() * 0.7 / 1.6, Phaser.AUTO);
     var game = new Phaser.Game(1280, 800, Phaser.AUTO);
-
     game.state.add('preloader', Preloader, true);
     game.state.add('mainmenu', MainMenu);
     game.state.add('level1', Game1ObjectManager);
@@ -48,7 +52,6 @@
 
 
 </script>
-
 
 
 </body>
